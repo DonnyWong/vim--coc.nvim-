@@ -371,7 +371,7 @@ let g:python_highlight_all = 1
 " ===coc.nvim
 " ===
 
-let g:coc_global_extensions =['coc-clangd','coc-pyright']
+let g:coc_global_extensions =['coc-clangd','coc-pyright','coc-snippets']
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
