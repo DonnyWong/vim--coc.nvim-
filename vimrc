@@ -233,6 +233,13 @@ map <LEADER>j :res -5<CR>
 map <LEADER>h :vertical resize-5<CR>
 map <LEADER>l :vertical resize+5<CR>
 
+"按两下空格跳转到下一个'<++>'并修改他'"
+map <LEADER><LEADER> <ESC>/<++><CR>:nohlsearch<CR>c4l
+
+"用空格+sc做拼写检查<space>sc"
+map <LEADER>sc :set spell!<CR>
+noremap <C-x> ea<C-x>s
+inoremap <C-x> <ESC>ea<C-x>s 
 
 "自动补全
 :inoremap ( ()<ESC>i
