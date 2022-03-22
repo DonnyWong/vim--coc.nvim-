@@ -210,6 +210,8 @@ set scrolloff=3
 " 为C程序提供自动缩进
 set smartindent
 
+" default updatetime 4000ms is not good for async update
+set updatetime=100
 
 "设置分屏快捷键
 "禁用s快捷键"
