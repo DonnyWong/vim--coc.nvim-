@@ -295,6 +295,9 @@ Plug 'honza/vim-snippets'
 
 "Plug 'vim-syntastic/syntastic'
 
+"Multiple cursors
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 " Python
 "Plug 'vim-scripts/indentpython.vim'
 
