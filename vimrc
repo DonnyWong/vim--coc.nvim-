@@ -310,6 +310,10 @@ Plug 'rizzatti/dash.vim'
 "Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
+"git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/gv.vim'
 
 
 call plug#end()
@@ -381,7 +385,7 @@ let g:python_highlight_all = 1
 " ===coc.nvim
 " ===
 
-let g:coc_global_extensions =['coc-clangd','coc-pyright','coc-snippets','coc-markdownlint']
+let g:coc_global_extensions =['coc-clangd','coc-pyright','coc-snippets','coc-markdownlint','coc-git']
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
