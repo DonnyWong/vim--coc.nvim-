@@ -29,8 +29,8 @@ func SetTitle()
     else
         call setline(1,"/*#########################################################################")
         call append(line("."), "\# File Name: ".expand("%"))
-        call append(line(".")+1, "\# Author:Donny")
-        call append(line(".")+2, "\# Email:wdm666666@gmail.com")
+        call append(line(".")+1, "\# Author:程序猴很懒")
+        call append(line(".")+2, "\# 欢迎关注、点赞、评论、转发四连击")
         call append(line(".")+3, "\# Created Time: ".strftime("%c"))
         call append(line(".")+4, "#########################################################################*/")
         call append(line(".")+5, "")
@@ -99,17 +99,17 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " 设置当文件被改动时自动载入
 set autoread
 "显示行尾有多余的空格（包括 Tab 键）
-set listchars=tab:»■,trail:■
-set list
-"代码补全 
-set completeopt=preview,menu 
-"允许插件  
+"set listchars=tab:»■,trail:■
+"set list
+"代码补全
+set completeopt=preview,menu
+"允许插件
 filetype plugin on
-"共享剪贴板  
+"共享剪贴板
 set clipboard=unnamed
 "在底部显示，当前键入的指令
 set showcmd
-"从不备份  
+"从不备份
 "set nobackup
 "make 运行
 :set makeprg=g++\ -Wall\ \ %
@@ -120,7 +120,7 @@ set cursorline              " 突出显示当前行
 set magic                   " 设置魔术
 " 设置在状态行显示的信息
 set foldcolumn=0
-set foldmethod=indent 
+set foldmethod=indent
 set foldlevel=3
 set foldenable              " 开始折叠
 " 不要使用vi的键盘模式，而是vim自己的
@@ -241,7 +241,7 @@ map <LEADER><LEADER> <ESC>/<++><CR>:nohlsearch<CR>c4l
 "用空格+sc做拼写检查<space>sc"
 map <LEADER>sc :set spell!<CR>
 noremap <C-x> ea<C-x>s
-inoremap <C-x> <ESC>ea<C-x>s 
+inoremap <C-x> <ESC>ea<C-x>s
 
 "自动补全
 :inoremap ( ()<ESC>i
@@ -259,7 +259,7 @@ function! ClosePair(char)
 		return a:char
 	endif
 endfunction
-filetype plugin indent on 
+filetype plugin indent on
 "打开文件类型检测, 加了这句才可以用智能补全
 set completeopt=longest,menu
 "自动补全命令时候使用菜单式匹配列表
@@ -292,16 +292,13 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'itchyny/vim-cursorword'
 
-" Code fragment completion
+" Code complete
 Plug 'honza/vim-snippets'
 
 "Plug 'vim-syntastic/syntastic'
 
 "Multiple cursors
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-
-" Python
-"Plug 'vim-scripts/indentpython.vim'
 
 " Java Complete
 Plug 'artur-shaik/vim-javacomplete2'
@@ -316,7 +313,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/gv.vim'
-
 
 call plug#end()
 
@@ -387,7 +383,7 @@ let g:python_highlight_all = 1
 " ===coc.nvim
 " ===
 
-let g:coc_global_extensions =['coc-clangd','coc-pyright','coc-snippets','coc-markdownlint','coc-git']
+let g:coc_global_extensions =['coc-clangd','coc-jedi','coc-snippets','coc-markdownlint','coc-git']
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -520,6 +516,7 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
 
 
 
