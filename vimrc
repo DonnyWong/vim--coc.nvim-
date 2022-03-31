@@ -295,6 +295,9 @@ Plug 'itchyny/vim-cursorword'
 " Code complete
 Plug 'honza/vim-snippets'
 
+"AI Code Complete
+Plug 'github/copilot.vim'
+
 "Plug 'vim-syntastic/syntastic'
 
 "Multiple cursors
