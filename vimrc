@@ -301,6 +301,12 @@ Plug 'github/copilot.vim'
 "vim terminal in the floating/popup window
 Plug 'voldikss/vim-floaterm'
 
+"multiline comment
+Plug 'tpope/vim-commentary'
+
+"filetype glyphs (icons)                                                                                                                                                            
+Plug 'ryanoasis/vim-devicons'
+
 
 
 "Multiple cursors
