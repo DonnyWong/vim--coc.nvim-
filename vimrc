@@ -307,10 +307,6 @@ Plug 'tpope/vim-commentary'
 "filetype glyphs (icons)                                                                                                                                                            
 Plug 'ryanoasis/vim-devicons'
 
-"switching between a single-line statement and a multi-line one
-"gS to split a one-liner into multiple lines
-"gJ (with the cursor on the first line of a block) to join a block into a single-line statement                                                                                     
-Plug 'AndrewRadev/splitjoin.vim'
 
 
 "Multiple cursors
