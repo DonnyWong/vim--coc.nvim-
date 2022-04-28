@@ -298,7 +298,10 @@ Plug 'honza/vim-snippets'
 "AI Code Complete
 Plug 'github/copilot.vim'
 
-"Plug 'vim-syntastic/syntastic'
+"vim terminal in the floating/popup window
+Plug 'voldikss/vim-floaterm'
+
+
 
 "Multiple cursors
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
@@ -380,7 +383,10 @@ let g:python_highlight_all = 1
 " === MarkdownPreview
 " ===
 
-
+" ===                              
+" === vim terminal in the floating/popup window
+" ===                              
+map F :FloatermNew<CR>
 
 " ===
 " ===coc.nvim
