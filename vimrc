@@ -307,6 +307,9 @@ Plug 'tpope/vim-commentary'
 "filetype glyphs (icons)                                                                                                                                                            
 Plug 'ryanoasis/vim-devicons'
 
+"vim-multiple-cursors
+Plug 'terryma/vim-multiple-cursors'
+
 
 
 "Multiple cursors
