@@ -6,7 +6,7 @@ autocmd BufNewFile *.cpp,*.[ch],*.sh,*.py,*.java exec ":call SetTitle()"
 ""定义函数SetTitle，自动插入文件头
 func SetTitle()
     "如果文件类型为.sh文件
-    if &filetype == 'sh'
+    if expand("%:e") == 'sh'
         call setline(1,"\#!/bin/bash")
         call append(line("."),"\#########################################################################")
         call append(line(".")+1, "\# File Name:".expand("%"))
@@ -15,8 +15,7 @@ func SetTitle()
         call append(line(".")+4, "\# Created Time: ".strftime("%c"))
         call append(line(".")+5, "\#########################################################################")
         call append(line(".")+6, "")
-
-    elseif &filetype == 'py'
+    elseif expand("%:e") == 'py'
         call setline(1,"\#!/usr/bin/env python")
         call append(line("."),"\#########################################################################")
         call append(line(".")+1, "\# File Name: ".expand("%"))
@@ -25,7 +24,6 @@ func SetTitle()
         call append(line(".")+4, "\# Created Time: ".strftime("%c"))
         call append(line(".")+5, "\#########################################################################")
         call append(line(".")+6, "")
-
     else
         call setline(1,"/*#########################################################################")
         call append(line("."), "\# File Name: ".expand("%"))
@@ -34,14 +32,13 @@ func SetTitle()
         call append(line(".")+3, "\# Created Time: ".strftime("%c"))
         call append(line(".")+4, "#########################################################################*/")
         call append(line(".")+5, "")
-
     endif
-    if &filetype == 'cpp'
+    if expand("%:e") == 'cpp'
         call append(line(".")+6, "#include <bits/stdc++.h>")
         call append(line(".")+7, "using namespace std;")
         call append(line(".")+8, "")
     endif
-    if &filetype == 'c'
+    if expand("%:e") == 'c'
         call append(line(".")+6, "#include<stdio.h>")
         call append(line(".")+7, "")
     endif
