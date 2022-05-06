@@ -146,6 +146,8 @@ fi
 zplug 'plugins/git', from:oh-my-zsh, if:'which git'
 #zplug "plugins/vi-mode", from:oh-my-zsh
 zplug 'plugins/web-search', from:oh-my-zsh
+zplug 'plugins/copypath', from:oh-my-zsh
+zplug 'plugins/copyfile', from:oh-my-zsh
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions', defer:2
 zplug 'zsh-users/zsh-history-substring-search'
