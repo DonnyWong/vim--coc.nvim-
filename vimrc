@@ -307,10 +307,12 @@ Plug 'ryanoasis/vim-devicons'
 "vim-multiple-cursors
 Plug 'terryma/vim-multiple-cursors'
 
-
-
 "Multiple cursors
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
+"Vim graphical debugger
+"Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --force-enable-java'}
+
 
 " Java Complete
 Plug 'artur-shaik/vim-javacomplete2'
@@ -393,6 +395,26 @@ let g:python_highlight_all = 1
 " === vim terminal in the floating/popup window
 " ===                              
 map F :FloatermNew<CR>
+
+" ===
+" ==================== vimspector ====================
+" ===
+let g:vimspector_enable_mappings = 'HUMAN'
+function! s:read_template_into_buffer(template)
+    " has to be a function to avoid the extra space fzf#run insers otherwise
+    execute '0r ~/.config/vimspector/'.a:template
+endfunction
+command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
+            \   'source': 'ls -1 ~/.config/vimspector',
+            \   'down': 20,
+            \   'sink': function('<sid>read_template_into_buffer')
+            \ })
+" noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
+sign define vimspectorBP text=☛ texthl=Normal
+sign define vimspectorBPDisabled text=☞ texthl=Normal
+sign define vimspectorPC text=🔶 texthl=SpellBad
+
+
 
 " ===
 " ===coc.nvim
