@@ -119,8 +119,9 @@ source $ZSH/oh-my-zsh.sh
 alias ll='colorls -l --sd'
 alias ls='colorls '
 # alias ls='lsd'
+# alias lt='lsd --tree --depth 4'
 
-                                                                                                                                                                                    
+
 
 # install zplug, plugin manager for zsh, https://github.com/zplug/zplug
 # curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
