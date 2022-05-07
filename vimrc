@@ -63,7 +63,7 @@ func! CompileRunGcc()
     exec "!g++ % -o %<"
     exec "!time ./%<"
   elseif &filetype == 'cpp'
-    exec "!g++ -ltensorflow % -o %<"
+    exec "!g++ -ltensorflow -std=c++20 % -o %<"
     exec "!time ./%<"
   elseif &filetype == 'java'
     exec "!javac %"
