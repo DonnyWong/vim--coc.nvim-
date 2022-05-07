@@ -13,6 +13,13 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# >>> clangd initialize >>>
+export PATH="/usr/local/clangd/bin:$PATH"                                                                                                                                                
+
+# >>> ruby&gem initialize >>>
+export PATH="/usr/local/Cellar/ruby/3.1.2/bin:$PATH"
+
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
