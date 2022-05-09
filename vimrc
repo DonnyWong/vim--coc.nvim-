@@ -60,7 +60,7 @@ map r :call CompileRunGcc()<CR>
 func! CompileRunGcc()
   exec "w"
   if &filetype == 'c'
-    exec "!g++ % -o %<"
+    exec "!gcc -std=c17 % -o %<"
     exec "!time ./%<"
   elseif &filetype == 'cpp'
     exec "!g++ -ltensorflow -std=c++20 % -o %<"
