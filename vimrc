@@ -271,7 +271,6 @@ set wildmenu
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 
 Plug 'connorholyday/vim-snazzy'
 
@@ -394,10 +393,6 @@ let g:python_highlight_all = 1
 " ===
 
 
-" ===
-" === Airline Theme
-" ===
-let g:airline_theme='random'
 
 
 " ===                              
