@@ -271,6 +271,8 @@ set wildmenu
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 Plug 'connorholyday/vim-snazzy'
 
 " Undo Tree
@@ -390,6 +392,13 @@ let g:python_highlight_all = 1
 " ===
 " === MarkdownPreview
 " ===
+
+
+" ===
+" === Airline Theme
+" ===
+let g:airline_theme='random'
+
 
 " ===                              
 " === vim terminal in the floating/popup window
