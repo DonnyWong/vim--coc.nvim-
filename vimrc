@@ -305,6 +305,7 @@ Plug 'itchyny/vim-cursorword'
 
 " Code complete
 Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 
 "AI Code Complete
 Plug 'github/copilot.vim'
@@ -324,6 +325,11 @@ Plug 'terryma/vim-multiple-cursors'
 "Multiple cursors
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
+"Change Surround examples Press cs"'
+Plug 'tpope/vim-surround'
+
+"Rainbow Parentheses Improved
+Plug 'luochen1990/rainbow'
 
 " Java Complete
 Plug 'artur-shaik/vim-javacomplete2'
@@ -473,12 +479,16 @@ noremap fv :Vista<CR>
 " ===                              
 map F :FloatermNew<CR>
 
+" ===
+" === Rainbow
+" ===
+let g:rainbow_active = 1
 
 " ===
 " ===coc.nvim
 " ===
 
-let g:coc_global_extensions =['coc-clangd','coc-jedi','coc-snippets','coc-markdownlint','coc-git','coc-cmake','coc-tabnine']
+let g:coc_global_extensions =['coc-clangd','coc-jedi','coc-snippets','coc-markdownlint','coc-git','coc-cmake','coc-tabnine','coc-vimlsp','coc-json']
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
