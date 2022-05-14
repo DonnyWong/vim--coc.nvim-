@@ -279,7 +279,7 @@ Plug 'Rigellute/shades-of-purple.vim'
 Plug 'dracula/vim'
 Plug 'justb3a/vim-smarties'
 
-Plug 'connorholyday/vim-snazzy'
+
 
 "syntax highlighting
 Plug 'sheerun/vim-polyglot'
