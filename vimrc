@@ -73,8 +73,11 @@ func! CompileRunGcc()
   elseif &filetype == 'python'
     silent! exec "!clear"
     exec "!time python %"
+  elseif &filetype == 'go'
+    exec "!go build %<"
+    exec "!time go run %"
   elseif &filetype == 'html'
-    exec "!firefox % &"
+    exec "google-chrome % &"
   elseif &filetype == 'markdown'
     exec "MarkdownPreview"
   elseif &filetype == 'vimwiki'
@@ -184,8 +187,10 @@ set viminfo+=!
 set iskeyword+=_,$,@,%,#,-
 " 字符间插入的像素行数目
 set linespace=0
-" 增强模式中的命令行自动完成操作
+" 自动补全命令时候使用菜单式匹配列表
 set wildmenu
+"打开文件类型检测, 加了这句才可以用智能补全
+set completeopt=longest,menu
 " 使回格键（backspace）正常处理indent, eol, start等
 set backspace=2
 " 允许backspace和光标键跨越行边界
@@ -209,6 +214,12 @@ set smartindent
 
 " default updatetime 4000ms is not good for async update
 set updatetime=100
+
+"执行宏时不要重绘（良好的性能配置）
+set lazyredraw
+
+"为正则表达式开启魔法
+set magic
 
 "设置分屏快捷键
 "禁用s快捷键"
@@ -240,6 +251,46 @@ map <LEADER>sc :set spell!<CR>
 noremap <C-x> ea<C-x>s
 inoremap <C-x> <ESC>ea<C-x>s
 
+"<Leader>T = 删除文件中的所有尾随空格
+nmap <Leader>T :%s/\s\+$//<CR>
+
+"<Leader>U = 删除不需要的空行
+nmap <Leader>U :g/^$/d<CR>
+
+"Ctrl+A 全选
+map <C-a> ggVG
+
+"Ctrl+C 操作系统剪贴板复制
+vmap <C-c> "+y
+
+"Ctrl+B 操作系统剪贴板粘贴
+map <C-b> "*p
+
+"可视模式按 * 或 # 搜索当前选择
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+" :W sudo 保存文件
+" (useful for handling the permission-denied error)
+command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
+
 "自动补全
 :inoremap ( ()<ESC>i
 :inoremap ) <c-r>=ClosePair(')')<CR>
@@ -256,11 +307,11 @@ function! ClosePair(char)
 		return a:char
 	endif
 endfunction
-filetype plugin indent on
-"打开文件类型检测, 加了这句才可以用智能补全
-set completeopt=longest,menu
-"自动补全命令时候使用菜单式匹配列表
-set wildmenu
+
+" 让配置变更立即生效
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
+"自动补全列表
 " autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 " autocmd FileType python set omnifunc=pythoncomplete#Complete
 " autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
