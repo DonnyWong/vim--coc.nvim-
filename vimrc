@@ -262,6 +262,9 @@ vmap <C-c> "+y
 "Ctrl+B 操作系统剪贴板粘贴
 map <C-b> "*p
 
+"相邻的重复词
+noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
+
 "可视模式按 * 或 # 搜索当前选择
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
