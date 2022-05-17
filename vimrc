@@ -103,8 +103,6 @@ set autoread
 "set list
 "代码补全
 set completeopt=preview,menu
-"允许插件
-filetype plugin on
 "共享剪贴板
 set clipboard=unnamed
 "在底部显示，当前键入的指令
@@ -117,7 +115,7 @@ set showcmd
 set autowrite
 set ruler                   " 打开状态栏标尺
 set cursorline              " 突出显示当前行
-set magic                   " 设置魔术
+set magic                   " 为正则表达式开启魔法
 " 设置在状态行显示的信息
 set foldcolumn=0
 set foldmethod=indent
@@ -218,8 +216,6 @@ set updatetime=100
 "执行宏时不要重绘（良好的性能配置）
 set lazyredraw
 
-"为正则表达式开启魔法
-set magic
 
 "设置分屏快捷键
 "禁用s快捷键"
