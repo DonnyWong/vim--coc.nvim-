@@ -337,7 +337,8 @@ Plug 'Rigellute/shades-of-purple.vim'
 Plug 'dracula/vim'
 Plug 'justb3a/vim-smarties'
 
-
+" Startify
+Plug 'mhinz/vim-startify'
 
 "syntax highlighting
 Plug 'sheerun/vim-polyglot'
@@ -468,6 +469,17 @@ let g:python_highlight_all = 1
 
 
 
+
+" ===
+" === Startify
+" ===
+let g:startify_custom_header = [
+      \'      _                                     _                   _                 ',
+      \'  ___| |__   ___ _ __   __ _  __  ___   _  | |__   ___  _   _  | | __ _ _____   _ ',
+      \' / __|  _ \ / _ \ `_ \ / _` | \ \/ / | | | |  _ \ / _ \| | | | | |/ _` |_  / | | |',
+      \'| (__| | | |  __/ | | | (_| |  >  <| |_| | | | | | (_) | |_| | | | (_| |/ /| |_| |',
+      \' \___|_| |_|\___|_| |_|\__, | /_/\_\\__,_| |_| |_|\___/ \__,_| |_|\__,_/___|\__, |',
+      \'                       |___/                                                |___/ ']
 
 " ===
 " === Vim Theme Colors
