@@ -1,0 +1,15 @@
+##
+## The non-flaming sheep.
+##
+$the_cow = <<EOC
+  $thoughts
+   $thoughts
+      .-"-.
+    _/.-.-.\\_
+   /|( o o )|\\
+  | //  "  \\\\ |
+ / / \\'---'/ \\ \\
+ \\ \\_/`"""`\\_/ /
+  \\           /
+EOC
+
