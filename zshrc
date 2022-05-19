@@ -21,7 +21,7 @@ export PATH="/usr/local/Cellar/ruby/3.1.2/bin:$PATH"
 
 
 # Screen display
-figlet chengxuhoulazy | lolcat
+figlet -w 100 cheng xu hou lazy | lolcat
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
