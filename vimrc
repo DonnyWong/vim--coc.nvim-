@@ -301,10 +301,12 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 "自动补全
 :inoremap ( ()<ESC>i
 :inoremap ) <c-r>=ClosePair(')')<CR>
-:inoremap { {<CR>}<ESC>O
-:inoremap } <c-r>=ClosePair('}')<CR>
-":inoremap [ []<ESC>i
-":inoremap ] <c-r>=ClosePair(']')<CR>
+" :inoremap { {<CR>}<ESC>O
+" :inoremap } <c-r>=ClosePair('}')<CR>
+:inoremap { {}<ESC>i
+:inoremap {<CR> {<CR>}<ESC>O
+:inoremap [ []<ESC>i
+:inoremap ] <c-r>=ClosePair(']')<CR>
 :inoremap " ""<ESC>i
 :inoremap ' ''<ESC>i
 function! ClosePair(char)
