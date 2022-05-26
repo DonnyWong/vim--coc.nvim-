@@ -250,6 +250,18 @@ inoremap `3 ###
 inoremap `4 ####
 inoremap ~1 --------
 
+" ===
+" === Tab management
+" ===
+" Create a new tab with tu
+map tu :tabe 
+" Move around tabs with tn and ti
+map tn :-tabnext<CR>
+map ti :+tabnext<CR>
+" Move the tabs with tmn and tmi
+map tmn :-tabmove<CR>
+map tmi :+tabmove<CR>
+
 "用空格+sc做拼写检查<space>sc"
 map <LEADER>sc :set spell!<CR>
 noremap <C-x> ea<C-x>s
