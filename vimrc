@@ -250,6 +250,10 @@ inoremap `3 ###
 inoremap `4 ####
 inoremap ~1 --------
 
+"上下翻页居中显示 zz居中显示
+noremap j jzz
+noremap k kzz
+
 " ===
 " === Tab management
 " ===
