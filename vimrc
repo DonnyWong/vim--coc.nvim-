@@ -227,7 +227,7 @@ map sk :set nosplitbelow<CR>:split<CR>
 map sj :set splitbelow<CR>:split<CR>
 
 "设置分屏后光标移到方向
-map . <C-w><C-w>
+map ; <C-w><C-w>
 
 "设置上下左右移动分屏大小
 "map <up> :res +5<CR>
