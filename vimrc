@@ -256,6 +256,8 @@ noremap k kzz
 
 "删除Mark标记后面输入要删除的标记
 noremap dm :delmarks 
+"显示标记 '加上标记跳转到标记处
+noremap mk :marks<CR>
 
 " ===
 " === Tab management
@@ -280,14 +282,12 @@ nmap <Leader>T :%s/\s\+$//<CR>
 "<Leader>U = 删除不需要的空行
 nmap <Leader>U :g/^$/d<CR>
 
-"Ctrl+A 全选
-map <C-a> ggVG
+"Y 全选
+map Y ggVGy
 
-"Ctrl+C 操作系统剪贴板复制
-vmap <C-c> "+y
+"按P 显示粘贴板内容
+noremap P :reg<CR>
 
-"Ctrl+B 操作系统剪贴板粘贴
-map <C-b> "*p
 
 "相邻的重复词
 noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
