@@ -254,6 +254,9 @@ inoremap ~1 --------
 noremap j jzz
 noremap k kzz
 
+"删除Mark标记后面输入要删除的标记
+noremap dm :delmarks 
+
 " ===
 " === Tab management
 " ===
