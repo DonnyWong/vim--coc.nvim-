@@ -579,6 +579,11 @@ map F :FloatermNew<CR>
 let g:rainbow_active = 1
 
 " ===
+" ===Copilot []选择代码片段
+" ===
+noremap C :Copilot<CR>
+
+" ===
 " ===coc.nvim
 " ===
 
