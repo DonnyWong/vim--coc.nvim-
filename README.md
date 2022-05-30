@@ -1,1 +1,1 @@
-# This Is My Vim/NeoVim Config
+# This Is My Vim/NeoVim & Zsh Config
