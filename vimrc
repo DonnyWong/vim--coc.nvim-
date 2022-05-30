@@ -385,7 +385,6 @@ Plug 'itchyny/vim-cursorword'
 
 " Code complete
 Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
 
 "AI Code Complete
 Plug 'github/copilot.vim'
