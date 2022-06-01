@@ -288,6 +288,9 @@ map Y ggVGy
 "按P 显示粘贴板内容
 noremap P :reg<CR>
 
+"按<Leader>B显示编辑过的文件
+"按q退出上下翻阅然后按相应的数字选择编辑文件
+noremap <LEADER>b :browse oldfiles<CR>
 
 "相邻的重复词
 noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
