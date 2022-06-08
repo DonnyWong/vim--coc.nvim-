@@ -578,8 +578,7 @@ noremap F :FloatermNew<CR>
 tnoremap F <C-\><C-n>:FloatermNew<CR>
 nnoremap FD :FloatermPrev<CR>
 tnoremap FD <C-\><C-n>:FloatermPrev<CR>
-nnoremap FG :FloatermNext<CR>
-tnoremap FG <C-\><C-n>:FloatermNext<CR>
+nnoremap FG :FloatermNew fzf<CR>
 
 
 " ===
