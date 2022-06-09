@@ -585,7 +585,7 @@ noremap FR :call CompileRunFGcc()<CR>
 func! CompileRunFGcc()
   exec "w"
   if &filetype == 'c'
-    :FloatermNew! g++ -std=c17 % -o %< && time ./%<
+    :FloatermNew! gcc -std=c17 % -o %< && time ./%<
   elseif &filetype == 'cpp'
     :FloatermNew! g++ -std=c++20 % -o %< && time ./%<
   elseif &filetype == 'java'
