@@ -489,7 +489,15 @@ let g:python_highlight_all = 1
 " ===
 " === MarkdownPreview
 " ===
-
+" 让互联网上的设备可以访问
+"let g:mkdp_open_to_the_world = 1
+" 回显预览地址链接，方便跳转
+"let g:mkdp_echo_preview_url = 1
+" 设置云服务器的ip，根据实际设置
+" let g:mkdp_open_ip = '180.76.231.255'
+"let g:mkdp_open_ip = 'www.codekbug.com'
+" 指定端口号
+"let g:mkdp_port = '8888'
 
 
 
