@@ -242,7 +242,7 @@ map <LEADER>l :vertical resize+5<CR>
 " MarkdownPreview Setting
 "按两下空格跳转到下一个'<++>'并修改他'"
 map <LEADER><LEADER> <ESC>/<++><CR>:nohlsearch<CR>c4l
-inoremap `` <ESC>/<++><CR>:nohlsearch<CR>c4l
+inoremap ·· <ESC>/<++><CR>:nohlsearch<CR>c4l
 inoremap ~! <++>
 inoremap `1 #
 inoremap `2 ##
