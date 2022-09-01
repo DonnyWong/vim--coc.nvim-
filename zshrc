@@ -17,8 +17,10 @@ unset __conda_setup
 export PATH="/usr/local/clangd/bin:$PATH"                                                                                                                                                
 
 # >>> ruby&gem initialize >>>
-export PATH="/usr/local/Cellar/ruby/3.1.2/bin:$PATH"
+export PATH="/usr/local/opt/ruby/bin:$PATH"
 
+# >>> node >>>
+export PATH="/usr/local/node/bin:$PATH"
 
 # Screen display
 # figlet -w 100 cheng xu hou lazy | lolcat
