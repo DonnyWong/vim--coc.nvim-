@@ -503,6 +503,14 @@ let g:python_highlight_all = 1
 
 
 " ===
+" === Markmap
+" ===
+noremap <Leader>m :CocCommand markmap.watch<CR> " 观看模式
+noremap <Leader>M :CocCommand markmap.create<CR> " 创建模式
+
+
+
+" ===
 " === Startify
 " ===
 " let g:startify_custom_header = [
