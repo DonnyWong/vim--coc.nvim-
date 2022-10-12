@@ -107,8 +107,6 @@ set completeopt=preview,menu
 set clipboard=unnamed
 "在底部显示，当前键入的指令
 set showcmd
-"从不备份
-"set nobackup
 "make 运行
 :set makeprg=g++\ -Wall\ \ %
 "自动保存
