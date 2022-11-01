@@ -350,7 +350,9 @@ autocmd BufWritePost $MYVIMRC source $MYVIMRC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 
+" Vim Airline
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Vim Theme Colors
 Plug 'joshdick/onedark.vim'
@@ -472,6 +474,10 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
 "nnoremap gt :YcmCompleter GetType<CR>
 "nnoremap gr :YcmCompleter GoToReferences<CR>
 
+" ===
+" === Airline
+" ===
+let g:airline_theme='soda'
 
 "javacomplete2 java自动补全
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
