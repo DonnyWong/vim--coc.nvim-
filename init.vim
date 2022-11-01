@@ -345,7 +345,9 @@ autocmd BufWritePost $MYVIMRC source $MYVIMRC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged')
 
+" Vim Airline
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Vim Theme Colors
 " Plug 'joshdick/onedark.vim'
@@ -378,6 +380,10 @@ call plug#end()
 set background=dark
 colorscheme smarties
 
+" ===
+" === Airline
+" ===
+let g:airline_theme='soda'
 
 " ===
 " ===Copilot []选择代码片段
