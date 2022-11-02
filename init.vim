@@ -348,7 +348,11 @@ autocmd BufWritePost $MYVIMRC source $MYVIMRC
 call plug#begin('~/.config/nvim/plugged')
 
 " Vim Airline
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
+Plug 'nvim-lualine/lualine.nvim'
+
+"filetype glyphs (icons)
+Plug 'ryanoasis/vim-devicons'
 
 " Vim Theme Colors
 " Plug 'joshdick/onedark.vim'
@@ -385,6 +389,17 @@ colorscheme smarties
 " === Airline
 " ===
 let g:airline_powerline_fonts = 1
+
+" ===
+" === Lualine
+" ===
+lua << END
+require('lualine').setup({
+	\ options = { 
+	icons_enabled = true,
+	theme = 'powerline_dark' }
+  \ })
+END
 
 " ===
 " ===Copilot []选择代码片段
