@@ -219,6 +219,8 @@ set updatetime=100
 "执行宏时不要重绘（良好的性能配置）
 set lazyredraw
 
+" 开启256配色
+set t_Co=256
 
 "设置分屏快捷键
 "禁用s快捷键"
@@ -347,7 +349,6 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Vim Airline
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 
 " Vim Theme Colors
 " Plug 'joshdick/onedark.vim'
@@ -383,7 +384,7 @@ colorscheme smarties
 " ===
 " === Airline
 " ===
-let g:airline_theme='soda'
+let g:airline_powerline_fonts = 1
 
 " ===
 " ===Copilot []选择代码片段
