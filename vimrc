@@ -393,6 +393,11 @@ Plug 'honza/vim-snippets'
 "AI Code Complete
 Plug 'github/copilot.vim'
 
+" ChatGPT Neural
+Plug 'dense-analysis/neural'
+Plug 'muniftanjim/nui.nvim'
+Plug 'elpiloto/significant.nvim'
+
 "vim terminal in the floating/popup window
 Plug 'voldikss/vim-floaterm'
 
@@ -633,6 +638,17 @@ let g:lazygit_floating_window_winblend = 0 " transparency of floating window
 let g:lazygit_floating_window_scaling_factor = 1.0 " scaling factor for floating window
 let g:lazygit_floating_window_corner_chars = ['╭', '╮', '╰', '╯'] " customize lazygit popup window corner characters
 let g:lazygit_use_neovim_remote = 1 " for neovim-remote support
+
+" ===
+" ===Configure Neural
+" ===                                                                                                                                                                                    
+let g:neural = {
+\   'source': {
+\       'openai': {
+\           'api_key': "your_api_key",
+\       },
+\   },
+\}
 
 " ===
 " ===Copilot []选择代码片段
