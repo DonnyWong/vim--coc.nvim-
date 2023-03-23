@@ -365,6 +365,11 @@ Plug 'github/copilot.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dense-analysis/ale'
 
+" ChatGPT Neural
+Plug 'dense-analysis/neural'
+Plug 'muniftanjim/nui.nvim'
+Plug 'elpiloto/significant.nvim'
+
 Plug 'kdheepak/lazygit.nvim'
 
 " Treesitter
@@ -437,6 +442,18 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fs <cmd>Telescope keymaps<cr>
+
+
+" ===
+" ===Configure Neural
+" ===
+let g:neural = {
+\   'source': {
+\       'openai': {
+\           'api_key': "your_api_key",
+\       },
+\   },
+\}
 
 
 
