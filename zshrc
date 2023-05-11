@@ -137,6 +137,10 @@ alias ls='colorls '
 # alias lt='lsd --tree --depth 4'
 
 
+# VPN                                                                                                                                                                                    
+alias proxy='export all_proxy=http://127.0.0.1:7890'
+alias unproxy='unset all_proxy'
+
 
 # install zplug, plugin manager for zsh, https://github.com/zplug/zplug
 # curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
