@@ -399,6 +399,7 @@ Plug 'tpope/vim-commentary'
 
 "filetype glyphs (icons)                                                                                                                                                            
 Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 "Multiple cursors
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
