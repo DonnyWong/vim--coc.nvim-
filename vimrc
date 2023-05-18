@@ -345,10 +345,6 @@ autocmd BufWritePost $MYVIMRC source $MYVIMRC
 "自动补全列表
 " autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 " autocmd FileType python set omnifunc=pythoncomplete#Complete
-" autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-" autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 
@@ -362,8 +358,6 @@ Plug 'Rigellute/shades-of-purple.vim'
 Plug 'dracula/vim'
 Plug 'justb3a/vim-smarties'
 
-" Startify
-" Plug 'mhinz/vim-startify'
 
 "syntax highlighting
 Plug 'sheerun/vim-polyglot'
@@ -379,7 +373,6 @@ Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Auto Complete
-"Plug 'ycm-core/YouCompleteMe'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
@@ -406,9 +399,6 @@ Plug 'tpope/vim-commentary'
 
 "filetype glyphs (icons)                                                                                                                                                            
 Plug 'ryanoasis/vim-devicons'
-
-"vim-multiple-cursors
-Plug 'terryma/vim-multiple-cursors'
 
 "Multiple cursors
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
@@ -472,13 +462,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
-" ===
-" === You Complete ME
-" ===
-"nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-"nnoremap g/ :YcmCompleter GetDoc<CR>
-"nnoremap gt :YcmCompleter GetType<CR>
-"nnoremap gr :YcmCompleter GoToReferences<CR>
+
 
 " ===
 " === Airline
@@ -518,21 +502,6 @@ let g:python_highlight_all = 1
 noremap <Leader>m :CocCommand markmap.watch<CR> " 观看模式
 noremap <Leader>M :CocCommand markmap.create<CR> " 创建模式
 
-
-
-" ===
-" === Startify
-" ===
-" let g:startify_custom_header = [
-"       \'      _                                     _                   _                 ',
-"       \'  ___| |__   ___ _ __   __ _  __  ___   _  | |__   ___  _   _  | | __ _ _____   _ ',
-"       \' / __|  _ \ / _ \ `_ \ / _` | \ \/ / | | | |  _ \ / _ \| | | | | |/ _` |_  / | | |',
-"       \'| (__| | | |  __/ | | | (_| |  >  <| |_| | | | | | (_) | |_| | | | (_| |/ /| |_| |',
-"       \' \___|_| |_|\___|_| |_|\__, | /_/\_\\__,_| |_| |_|\___/ \__,_| |_|\__,_/___|\__, |',
-"       \'                       |___/                                                |___/ ']
-
-" let g:startify_custom_header =
-"       \ startify#pad(split(system('figlet -w 100 cheng xu hou lazy|lolcat'), '\n'))
 
 
 " ===
