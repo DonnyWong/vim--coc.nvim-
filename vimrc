@@ -656,7 +656,7 @@ noremap C :Copilot<CR>
 " ===coc.nvim
 " ===
 
-let g:coc_global_extensions =['coc-clangd','coc-java','coc-jedi','coc-snippets','coc-markdownlint','coc-markmap','coc-git','coc-cmake','coc-tabnine','coc-vimlsp','coc-json','coc-texlab']
+let g:coc_global_extensions =['coc-clangd','coc-java','coc-pyright','coc-snippets','coc-markdownlint','coc-markmap','coc-git','coc-cmake','coc-tabnine','coc-vimlsp','coc-json','coc-texlab']
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
