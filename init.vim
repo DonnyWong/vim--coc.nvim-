@@ -362,6 +362,7 @@ Plug 'justb3a/vim-smarties'
 
 "AI Code Complete
 Plug 'github/copilot.vim'
+Plug 'Exafunction/codeium.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dense-analysis/ale'
 
