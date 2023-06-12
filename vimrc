@@ -385,6 +385,7 @@ Plug 'honza/vim-snippets'
 
 "AI Code Complete
 Plug 'github/copilot.vim'
+Plug 'Exafunction/codeium.vim'
 
 " ChatGPT Neural
 Plug 'dense-analysis/neural'
