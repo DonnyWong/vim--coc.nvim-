@@ -358,6 +358,10 @@ Plug 'Rigellute/shades-of-purple.vim'
 Plug 'dracula/vim'
 Plug 'justb3a/vim-smarties'
 
+" wilder
+Plug 'gelguy/wilder.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 
 "syntax highlighting
 Plug 'sheerun/vim-polyglot'
@@ -463,6 +467,36 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ "Clean"     : "✔︎",
     \ "Unknown"   : "?"
     \ }
+
+
+
+" ===
+" === wilder
+" ===
+call wilder#setup({
+      \ 'modes': [':', '/', '?'],
+      \ 'next_key': '<Tab>',
+      \ 'previous_key': '<S-Tab>',
+      \ 'accept_key': '<Down>',
+      \ 'reject_key': '<Up>',
+      \ })
+call wilder#set_option('pipeline', [
+      \   wilder#branch(
+      \     wilder#cmdline_pipeline({
+      \       'language': 'vim',
+      \       'fuzzy': 1,
+      \     }),
+      \     wilder#vim_search_pipeline(),
+      \   ),
+      \ ])
+call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_palette_theme({
+      \ 'border': 'rounded',
+      \ 'max_height': '75%',
+      \ 'min_height': 0,
+      \ 'prompt_position': 'top',
+      \ 'reverse': 0,
+      \ })))
+
 
 
 
