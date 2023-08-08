@@ -26,11 +26,11 @@ end
 
 configureDocAndSignature = function()
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-		vim.lsp.handlers.signature_help, {
-			silent = true,
-			focusable = false,
-			border = "rounded",
-		}
+	vim.lsp.handlers.signature_help, {
+		silent = true,
+		focusable = false,
+		border = "rounded",
+	}
 	)
 	local group = vim.api.nvim_create_augroup("lsp_diagnostics_hold", { clear = true })
 	vim.api.nvim_create_autocmd({ "CursorHold" }, {
@@ -147,9 +147,9 @@ return {
 
 			local lsp_defaults = lspconfig.util.default_config
 			lsp_defaults.capabilities = vim.tbl_deep_extend(
-				'force',
-				lsp_defaults.capabilities,
-				require('cmp_nvim_lsp').default_capabilities()
+			'force',
+			lsp_defaults.capabilities,
+			require('cmp_nvim_lsp').default_capabilities()
 			)
 
 			require('nvim-dap-projects').search_project_config()
@@ -161,6 +161,11 @@ return {
 				dart = true,
 				json = true,
 				lua = true,
+				python = true,
+				cpp = true,
+				c = true,
+				rust = true,
+				java = true,
 			}
 
 			vim.api.nvim_create_autocmd("BufWritePre", {
@@ -170,6 +175,10 @@ return {
 						local lineno = vim.api.nvim_win_get_cursor(0)
 						vim.lsp.buf.format({ async = false })
 						vim.api.nvim_win_set_cursor(0, lineno)
+						-- 设置自动缩进4个宽度
+						vim.api.nvim_exec([[
+						:normal! mzgg=G`z
+						]], false)
 					end
 				end,
 			})

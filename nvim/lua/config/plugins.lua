@@ -26,6 +26,8 @@ require("lazy").setup({
 	require("config.plugins.snippets"),
 	--通知消息
 	require("config.plugins.notify"),
+	--vim terminal in the floating/popup window
+	require("config.plugins.floaterm"),
 	--debugger
 	require("config.plugins.debugger"),
 	--多行注释,单行注释gcc，多行注释vgc
