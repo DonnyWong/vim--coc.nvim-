@@ -54,4 +54,4 @@ require("lazy").setup({
 
 require("config.compile_run")
 --主题颜色设置
-vim.cmd.colorscheme("smarties")
+vim.cmd.colorscheme("onedark")
