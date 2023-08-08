@@ -24,6 +24,34 @@ local configureKeybinds = function()
 	})
 end
 
+configureDocAndSignature = function()
+	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+		vim.lsp.handlers.signature_help, {
+			silent = true,
+			focusable = false,
+			border = "rounded",
+		}
+	)
+	local group = vim.api.nvim_create_augroup("lsp_diagnostics_hold", { clear = true })
+	vim.api.nvim_create_autocmd({ "CursorHold" }, {
+		pattern = "*",
+		callback = function()
+			vim.diagnostic.open_float(0, {
+				scope = "cursor",
+				focusable = false,
+				close_events = {
+					"CursorMoved",
+					"CursorMovedI",
+					"BufHidden",
+					"InsertCharPre",
+					"WinLeave",
+				},
+			})
+		end,
+		group = group,
+	})
+end
+
 return {
 	{
 		'weilbith/nvim-code-action-menu',
@@ -126,6 +154,7 @@ return {
 
 			require('nvim-dap-projects').search_project_config()
 
+			configureDocAndSignature()
 			configureKeybinds()
 
 			local format_on_save_filetypes = {
