@@ -133,16 +133,16 @@ M.configfunc = function()
 		mapping = cmp.mapping.preset.insert({
 			['<C-o>'] = cmp.mapping.complete(),
 			["<c-e>"] = cmp.mapping(
-				function()
-					cmp_ultisnips_mappings.compose { "expand", "jump_forwards" } (function() end)
-				end,
-				{ "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
+			function()
+				cmp_ultisnips_mappings.compose { "expand", "jump_forwards" } (function() end)
+			end,
+			{ "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
 			),
 			["<c-n>"] = cmp.mapping(
-				function(fallback)
-					cmp_ultisnips_mappings.jump_backwards(fallback)
-				end,
-				{ "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
+			function(fallback)
+				cmp_ultisnips_mappings.jump_backwards(fallback)
+			end,
+			{ "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
 			),
 			['<c-f>'] = cmp.mapping({
 				i = function(fallback)
@@ -160,17 +160,17 @@ M.configfunc = function()
 					end
 				end
 			}),
-			["<Down>"] = cmp.mapping({
-				i = function(fallback)
-					if cmp.visible() then
-						cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-					elseif has_words_before() then
-						cmp.complete()
-					else
-						fallback()
-					end
-				end,
-			}),
+			-- ["<Down>"] = cmp.mapping({
+			-- 	i = function(fallback)
+			-- 		if cmp.visible() then
+			-- 			cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+			-- 		elseif has_words_before() then
+			-- 			cmp.complete()
+			-- 		else
+			-- 			fallback()
+			-- 		end
+			-- 	end,
+			-- }),
 			["<S-Tab>"] = cmp.mapping({
 				i = function(fallback)
 					if cmp.visible() then
