@@ -1,4 +1,4 @@
--- vim.opt.termguicolors = true
+vim.opt.termguicolors = true
 vim.o.ttyfast = true
 --自动切换工作目录
 vim.o.autochdir = true
@@ -93,11 +93,10 @@ set directory=$HOME/.config/nvim/tmp/backup,.
 if has('persistent_undo')
 	set undofile
 	set undodir=$HOME/.config/nvim/tmp/undo,.
-endif
-]])
+	endif
+	]])
 
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, { pattern = "*.md", command = "setlocal spell", })
-vim.api.nvim_create_autocmd("BufEnter", { pattern = "*", command = "silent! lcd %:p:h", })
+	vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, { pattern = "*.md", command = "setlocal spell", })
+	vim.api.nvim_create_autocmd("BufEnter", { pattern = "*", command = "silent! lcd %:p:h", })
 
-vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]])
-
+	vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]])
