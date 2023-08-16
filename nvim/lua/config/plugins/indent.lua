@@ -6,14 +6,21 @@ return {
 			require('hlchunk').setup({
 				chunk = {
 					enable = true,
+					notify = false,
 					use_treesitter = true,
 					style = {
-						{ fg = "#806d9c" },
+						{ fg = "#9ae204" },
 					},
 				},
 				indent = {
 					chars = { "│", "¦", "┆", "┊", },
 					use_treesitter = false,
+					style = {
+						{ fg = "#00a1f9" },
+						{ fg = "#ffc400" },
+						{ fg = "#805bb5" },
+						{ fg = "#00ddef" },
+					},
 				},
 				blank = {
 					enable = false,
@@ -32,3 +39,4 @@ return {
 	-- 	}
 	-- },
 }
+
