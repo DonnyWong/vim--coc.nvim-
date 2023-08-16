@@ -15,11 +15,17 @@ return {
 				-- style = 'icon' | 'underline' | 'none',
 				style = "icon",
 			},
+			numbers = function(opts)
+				local NumberIcon = {
+					"❶ ", "❷ ", "❸ ", "❹ ", "❺ ", "❻ ", "❼ ", "❽ ", "❾ ", "❿ ",
+				}
+				return NumberIcon[tonumber(opts.ordinal)]
+			end,
 			show_buffer_close_icons = false,
 			show_close_icon = false,
 			enforce_regular_tabs = true,
 			show_duplicate_prefix = false,
-			tab_size = 16,
+			tab_size = 20,
 			padding = 0,
 			separator_style = "thick",
 		}
