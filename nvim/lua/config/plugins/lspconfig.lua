@@ -59,6 +59,7 @@ return {
 	},
 	{
 		'VonHeikemen/lsp-zero.nvim',
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{
 				"folke/trouble.nvim",
@@ -185,5 +186,3 @@ return {
 		end
 	},
 }
-
-
