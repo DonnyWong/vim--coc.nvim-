@@ -258,9 +258,11 @@ return {
 		}
 
 		ins_right {
-			'fileformat',
-			fmt = string.upper,
-			icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
+			-- 'fileformat',
+			function()
+				return ''
+			end,
+			cond = conditions.hide_in_width,
 			color = { fg = colors.green, gui = 'bold' },
 		}
 
@@ -276,7 +278,7 @@ return {
 			'diagnostics',
 			sources = { 'nvim_diagnostic', 'coc' },
 			sections = { 'error', 'warn', 'info', 'hint' },
-			symbols = { error = '😱', warn = '😰', info = '🫠', hint = '🤔' },
+			symbols = { error = '🚨', warn = '🦠', info = '🫠', hint = '🤔' },
 			diagnostics_color = {
 				error = { fg = colors.red },
 				warn = { fg = colors.yellow },
@@ -318,4 +320,3 @@ return {
 		lualine.setup(config)
 	end
 }
-
