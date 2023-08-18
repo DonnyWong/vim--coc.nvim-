@@ -235,6 +235,7 @@ return {
 				mac = '',
 			},
 			cond = conditions.hide_in_width,
+			padding = { left = 0, right = 0 },
 			color = { fg = colors.green, gui = 'bold' },
 		}
 
@@ -257,6 +258,7 @@ return {
 				info = { fg = colors.cyan },
 				hint = { fg = colors.blue },
 			},
+			padding = { left = 0, right = 0 },
 			color = { bg = colors.bgdark },
 		}
 
