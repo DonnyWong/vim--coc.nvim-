@@ -1,55 +1,6 @@
--- local current_signature = function()
--- 	if not pcall(require, 'lsp_signature') then return end
--- 	local sig = require("lsp_signature").status_line(50)
--- 	return sig.label .. "🐼" .. sig.hint
--- end
-
 return {
 	"nvim-lualine/lualine.nvim",
 	config = function()
-		-- require('lualine').setup {
-		-- 	options = {
-		-- 		icons_enabled = true,
-		-- 		theme = 'powerline_dark',
-		-- 		component_separators = { left = '', right = '' },
-		-- 		section_separators = { left = '', right = '' },
-		-- 		disabled_filetypes = {
-		-- 			statusline = {},
-		-- 			winbar = {},
-		-- 		},
-		-- 		ignore_focus = {},
-		-- 		always_divide_middle = true,
-		-- 		globalstatus = true,
-		-- 		refresh = {
-		-- 			statusline = 1000,
-		-- 			tabline = 1000,
-		-- 			winbar = 1000,
-		-- 		}
-		-- 	},
-		-- 	sections = {
-		-- 		lualine_a = { 'filename' },
-		-- 		lualine_b = { 'branch', 'diff', 'diagnostics' },
-		-- 		lualine_c = {},
-		-- 		lualine_x = {},
-		-- 		lualine_y = { 'filesize', 'fileformat', 'filetype' },
-		-- 		lualine_z = { 'location' }
-		-- 	},
-		-- 	inactive_sections = {
-		-- 		lualine_a = {},
-		-- 		lualine_b = {},
-		-- 		lualine_c = { 'filename' },
-		-- 		lualine_x = { 'location' },
-		-- 		lualine_y = {},
-		-- 		lualine_z = {}
-		-- 	},
-		-- 	tabline = {},
-		-- 	winbar = {},
-		-- 	inactive_winbar = {},
-		-- 	extensions = {}
-		-- }
-		-- Eviline config for lualine
-		-- Author: shadmansaleh
-		-- Credit: glepnir
 		local lualine = require('lualine')
 
 		-- Color table for highlights
@@ -203,9 +154,20 @@ return {
 
 		ins_left {
 			'filename',
+			path = 3,      -- 0 = just filename, 1 = relative path, 2 = absolute path, 3 = Absolute path, with tilde as the home directory, 4 = Filename and parent dir
+			file_status = true, -- displays file status (readonly status, modified status)
+			newfile_status = false, -- displays new file status (readonly status, modified status)
 			cond = conditions.buffer_not_empty,
 			color = { fg = colors.orange, bg = colors.bgdark, gui = 'bold' },
 			padding = { left = 0, right = 0 },
+		}
+
+		ins_left {
+			function()
+				return ''
+			end,
+			color = { fg = colors.darkblue, bg = colors.bglight },
+			padding = { left = 0 },
 		}
 
 		ins_left {
@@ -249,6 +211,14 @@ return {
 			color = { fg = colors.magenta, gui = 'bold' },
 		}
 
+		ins_right {
+			'datetime',
+			style = ("%d %A %H:%M:%S"),
+			cond = conditions.buffer_not_empty,
+			color = { fg = colors.orange, bg = colors.bgdark, gui = 'bold' },
+			padding = { left = 0, right = 0 },
+		}
+
 		-- Add components to right sections
 		ins_right {
 			'o:encoding', -- option component same as &encoding in viml
@@ -258,10 +228,12 @@ return {
 		}
 
 		ins_right {
-			-- 'fileformat',
-			function()
-				return ''
-			end,
+			'fileformat',
+			symbols = {
+				unix = '',
+				dos = '',
+				mac = '',
+			},
 			cond = conditions.hide_in_width,
 			color = { fg = colors.green, gui = 'bold' },
 		}
@@ -278,7 +250,7 @@ return {
 			'diagnostics',
 			sources = { 'nvim_diagnostic', 'coc' },
 			sections = { 'error', 'warn', 'info', 'hint' },
-			symbols = { error = '🚨', warn = '🦠', info = '🫠', hint = '🤔' },
+			symbols = { error = '💩', warn = '🦠', info = '🫠', hint = '🤔' },
 			diagnostics_color = {
 				error = { fg = colors.red },
 				warn = { fg = colors.yellow },
