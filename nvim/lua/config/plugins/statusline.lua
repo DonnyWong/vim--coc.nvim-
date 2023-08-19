@@ -223,6 +223,7 @@ return {
 				return msg
 			end,
 			icon = ' LSP:',
+			padding = { left = 0, right = 0 },
 			color = { fg = colors.yellow, gui = 'bold' },
 		}
 
