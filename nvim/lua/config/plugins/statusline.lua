@@ -1,5 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
+	dependencies = { "ofseed/lualine-copilot" },
 	config = function()
 		local lualine = require('lualine')
 
@@ -231,6 +232,11 @@ return {
 			'filetype',
 			cond = conditions.buffer_not_empty,
 			color = { fg = colors.magenta, gui = 'bold' },
+		}
+
+		ins_right {
+			'copilot',
+			show_running = true,
 		}
 
 		ins_right {
