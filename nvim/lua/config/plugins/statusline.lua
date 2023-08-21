@@ -237,6 +237,8 @@ return {
 		ins_right {
 			'copilot',
 			show_running = true,
+			cond = conditions.buffer_not_empty,
+			color = { fg = colors.cyan, bg = colors.bgdark, gui = 'bold' },
 		}
 
 		ins_right {
