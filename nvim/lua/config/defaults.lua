@@ -6,8 +6,8 @@ vim.o.exrc = true
 --是否启用安全模式
 vim.o.secure = false
 --显示行号
--- vim.o.number = true
--- vim.o.relativenumber = true
+vim.o.number = true
+vim.o.relativenumber = true
 --高亮光标所在行
 vim.o.cursorline = true
 --是否将制表符（Tab）自动转换为空格
