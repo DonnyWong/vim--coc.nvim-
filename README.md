@@ -4,3 +4,5 @@
 ## Profiles->Session->Status bar enabled Configuer Status Bar<img width="910" alt="image" src="https://github.com/DonnyWong/vim--coc.nvim-/assets/15830544/e2e79179-b5b1-4303-a074-cf8053afc2f7">
 ## 上下滑动选择喜欢的状态栏
 # 注意！需要用gem安装iStats，可根据需要修改fan_speed.py和cpu_temperature.py中istats文件路径。
+# 最终展示<img width="1680" alt="image" src="https://github.com/DonnyWong/vim--coc.nvim-/assets/15830544/fa1e8ae0-7664-44fc-95b3-8a441b151aa3">
+
