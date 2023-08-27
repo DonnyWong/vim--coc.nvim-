@@ -40,7 +40,7 @@ async def main(connection):
             else:
                 charge_icons="󰢟 󰢜 󰂆 󰂇 󰂈 󰢝 󰂉 󰢞 󰂊 󰂋 󰂅 "
             if percentage == "100":
-                icon = "󰁹%100"
+                icon = "󰁹"
             else:
                 icon=charge_icons.split()[ord(percentage[0]) - 48]
             return f'{icon} {percentage}% {estimate}' if not stderr else '󰁹 N/A'
