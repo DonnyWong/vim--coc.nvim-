@@ -76,8 +76,33 @@ return {
 			{
 				--mason clangd 设置路径：/Users/donny/.local/share/nvim/mason/packages/clangd/clangd_16.0.2/lib/clang/16/include
 				'williamboman/mason.nvim',
+				config = function()
+					require("mason").setup({
+						ui = {
+							icons = {
+								package_installed = "✓",
+								package_pending = "➜",
+								package_uninstalled = "✗"
+							}
+						}
+					})
+				end
 			},
-			{ 'williamboman/mason-lspconfig.nvim' },
+			{
+				'williamboman/mason-lspconfig.nvim',
+				config = function()
+					require("mason-lspconfig").setup({
+						ensure_installed = {
+							"clangd",
+							"pyright",
+							"jsonls",
+							"jdtls",
+							"lua-language-server",
+							"cmake-language-server",
+						},
+					})
+				end
+			},
 			{ 'hrsh7th/cmp-nvim-lsp' },
 			{
 				'j-hui/fidget.nvim',
