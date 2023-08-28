@@ -76,9 +76,6 @@ return {
 			{
 				--mason clangd 设置路径：/Users/donny/.local/share/nvim/mason/packages/clangd/clangd_16.0.2/lib/clang/16/include
 				'williamboman/mason.nvim',
-				build = function()
-					vim.cmd([[MasonInstall]])
-				end,
 			},
 			{ 'williamboman/mason-lspconfig.nvim' },
 			{ 'hrsh7th/cmp-nvim-lsp' },
@@ -167,6 +164,8 @@ return {
 				c = true,
 				rust = true,
 				java = true,
+				sh = true,
+				cmake = true,
 			}
 
 			vim.api.nvim_create_autocmd("BufWritePre", {
