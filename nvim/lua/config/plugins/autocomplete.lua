@@ -12,6 +12,7 @@ end
 local M = {}
 M.config = {
 	"hrsh7th/nvim-cmp",
+	event = "InsertEnter",
 	after = "SirVer/ultisnips",
 	dependencies = {
 		"hrsh7th/cmp-buffer",
