@@ -1,6 +1,10 @@
 return {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "ofseed/lualine-copilot" },
+	event = "VimEnter",
+	dependencies = {
+		"ofseed/lualine-copilot",
+		"nvim-tree/nvim-web-devicons",
+	},
 	config = function()
 		local lualine = require('lualine')
 
