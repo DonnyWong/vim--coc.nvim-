@@ -24,7 +24,7 @@ local configureKeybinds = function()
 	})
 end
 
-configureDocAndSignature = function()
+local configureDocAndSignature = function()
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
 	vim.lsp.handlers.signature_help, {
 		silent = true,
