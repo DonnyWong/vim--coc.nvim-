@@ -110,7 +110,6 @@ return {
 			},
 			"folke/neodev.nvim",
 			"ray-x/lsp_signature.nvim",
-			"ldelossa/nvim-dap-projects",
 			{
 				"lvimuser/lsp-inlayhints.nvim",
 				branch = "anticonceal",
@@ -168,7 +167,6 @@ return {
 			require('cmp_nvim_lsp').default_capabilities()
 			)
 
-			require('nvim-dap-projects').search_project_config()
 
 			configureDocAndSignature()
 			configureKeybinds()
