@@ -1,6 +1,7 @@
 return {
 	{
 		"kevinhwang91/nvim-hlslens",
+		event = "CursorHold",
 		config = function()
 			require('hlslens').setup({
 				build_position_cb = function(plist, _, _, _)
