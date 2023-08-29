@@ -1,7 +1,7 @@
 return {
 	{
 		"mfussenegger/nvim-dap",
-		event = "VeryLazy",
+		keys = { "<leader>'t" },
 		dependencies = {
 			{
 				"ravenxrz/DAPInstall.nvim",
