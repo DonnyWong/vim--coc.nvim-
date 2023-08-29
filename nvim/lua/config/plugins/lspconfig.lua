@@ -97,8 +97,8 @@ return {
 							"pyright",
 							"jsonls",
 							"jdtls",
-							"lua-language-server",
-							"cmake-language-server",
+							"lua_ls",
+							"cmake",
 						},
 					})
 				end
@@ -119,13 +119,6 @@ return {
 
 		config = function()
 			local lsp = require('lsp-zero').preset({})
-
-			lsp.ensure_installed({
-				'clangd',
-				'pyright',
-				'eslint',
-				'jsonls',
-			})
 
 
 			lsp.on_attach(function(client, bufnr)
