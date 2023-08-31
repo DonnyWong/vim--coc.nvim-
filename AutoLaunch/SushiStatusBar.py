@@ -6,7 +6,6 @@
 # Created Time: 四  8/31 18:45:23 2023
 #########################################################################
 
-
 import iterm2
 # To install, update, or remove packages from PyPI, use Scripts > Manage > Manage Dependencies...
 status_count = 0
