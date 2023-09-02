@@ -391,10 +391,6 @@ Plug 'honza/vim-snippets'
 Plug 'github/copilot.vim'
 Plug 'Exafunction/codeium.vim'
 
-" ChatGPT Neural
-Plug 'dense-analysis/neural'
-Plug 'muniftanjim/nui.nvim'
-Plug 'elpiloto/significant.nvim'
 
 "vim terminal in the floating/popup window
 Plug 'voldikss/vim-floaterm'
@@ -414,12 +410,6 @@ Plug 'tpope/vim-surround'
 
 "Rainbow Parentheses Improved
 Plug 'luochen1990/rainbow'
-
-" Java Complete
-Plug 'artur-shaik/vim-javacomplete2'
-
-" Dash
-Plug 'rizzatti/dash.vim'
 
 "Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -532,11 +522,6 @@ let g:WebDevIconsDefaultFileSymbolColor = s:lightGreen " sets the color for file
 " ===
 let g:airline_powerline_fonts = 1
 
-"javacomplete2 java自动补全
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-
-
-
 " ===
 " === Python-syntax
 " ===
@@ -556,15 +541,6 @@ let g:python_highlight_all = 1
 "let g:mkdp_open_ip = 'www.codekbug.com'
 " 指定端口号
 "let g:mkdp_port = '8888'
-
-
-
-" ===
-" === Markmap
-" ===
-noremap <Leader>m :CocCommand markmap.watch<CR> " 观看模式
-noremap <Leader>M :CocCommand markmap.create<CR> " 创建模式
-
 
 
 " ===
@@ -622,8 +598,8 @@ let g:vista#renderer#enable_icon = 1
 
 " The default icons can't be suitable for all the filetypes, you can extend it as you wish.
 let g:vista#renderer#icons = {
-\   "function": "\uf794",
-\   "variable": "\uf71b",
+\   "function": "󰊕",
+\   "variable": "",
 \  }
 
 noremap fv :Vista<CR>
@@ -670,17 +646,6 @@ let g:lazygit_floating_window_winblend = 0 " transparency of floating window
 let g:lazygit_floating_window_scaling_factor = 1.0 " scaling factor for floating window
 let g:lazygit_floating_window_border_chars = ['╭', '╮', '╰', '╯'] " customize lazygit popup window corner characters
 let g:lazygit_use_neovim_remote = 1 " for neovim-remote support
-
-" ===
-" ===Configure Neural
-" ===                                                                                                                                                                                    
-let g:neural = {
-\   'source': {
-\       'openai': {
-\           'api_key': "your_api_key",
-\       },
-\   },
-\}
 
 " ===
 " ===Copilot []选择代码片段
