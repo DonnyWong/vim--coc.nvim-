@@ -15,9 +15,6 @@ local configureKeybinds = function()
 			-- vim.keymap.set({ 'n', 'x' }, '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
 			vim.keymap.set('n', '<leader>aw', vim.lsp.buf.code_action, opts)
 			vim.keymap.set('n', "<leader>,", vim.lsp.buf.code_action, opts)
-			-- vim.keymap.set('x', '<leader>aw', vim.lsp.buf.range_code_action, opts)
-			-- vim.keymap.set('x', "<leader>,", vim.lsp.buf.range_code_action, opts)
-			vim.keymap.set('n', '<leader>t', ':Trouble<cr>', opts)
 			vim.keymap.set('n', '<leader>-', vim.diagnostic.goto_prev, opts)
 			vim.keymap.set('n', '<leader>=', vim.diagnostic.goto_next, opts)
 		end
@@ -58,20 +55,24 @@ return {
 		cmd = 'CodeActionMenu',
 	},
 	{
+		"folke/trouble.nvim",
+		keys = { "<leader>t" },
+		opts = {
+			use_diagnostic_signs = true,
+			action_keys = {
+				close = "<esc>",
+				previous = "u",
+				next = "e"
+			},
+		},
+		config = function()
+			vim.keymap.set('n', '<leader>t', ':Trouble<cr>', opts)
+		end
+	},
+	{
 		'VonHeikemen/lsp-zero.nvim',
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			{
-				"folke/trouble.nvim",
-				opts = {
-					use_diagnostic_signs = true,
-					action_keys = {
-						close = "<esc>",
-						previous = "u",
-						next = "e"
-					},
-				},
-			},
 			{ 'neovim/nvim-lspconfig' },
 			{
 				--mason clangd 设置路径：/Users/donny/.local/share/nvim/mason/packages/clangd/clangd_16.0.2/lib/clang/16/include
