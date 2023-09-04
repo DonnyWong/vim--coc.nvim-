@@ -23,7 +23,7 @@ M.config = {
 		-- "andersevenrud/cmp-tmux",
 		{
 			"onsails/lspkind.nvim",
-			lazy = false,
+			lazy = true,
 			config = function()
 				require("lspkind").init()
 			end
