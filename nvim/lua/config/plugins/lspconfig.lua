@@ -14,7 +14,6 @@ local configureKeybinds = function()
 			vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
 			-- vim.keymap.set({ 'n', 'x' }, '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
 			vim.keymap.set('n', '<leader>aw', vim.lsp.buf.code_action, opts)
-			vim.keymap.set('n', "<leader>,", vim.lsp.buf.code_action, opts)
 			vim.keymap.set('n', '<leader>-', vim.diagnostic.goto_prev, opts)
 			vim.keymap.set('n', '<leader>=', vim.diagnostic.goto_next, opts)
 		end
