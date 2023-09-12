@@ -108,12 +108,12 @@ return {
 				'j-hui/fidget.nvim',
 				tag = "legacy"
 			},
-			"folke/neodev.nvim",
-			"ray-x/lsp_signature.nvim",
-			{
-				"lvimuser/lsp-inlayhints.nvim",
-				branch = "anticonceal",
-			},
+			-- "folke/neodev.nvim",
+			-- "ray-x/lsp_signature.nvim",
+			-- {
+			-- 	"lvimuser/lsp-inlayhints.nvim",
+			-- 	branch = "anticonceal",
+			-- },
 		},
 
 		config = function()
