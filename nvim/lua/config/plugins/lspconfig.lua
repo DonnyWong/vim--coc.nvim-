@@ -55,7 +55,7 @@ return {
 	},
 	{
 		"folke/trouble.nvim",
-		keys = { "<leader>t" },
+		keys = { "<leader>T" },
 		opts = {
 			use_diagnostic_signs = true,
 			action_keys = {
@@ -65,7 +65,7 @@ return {
 			},
 		},
 		config = function()
-			vim.keymap.set('n', '<leader>t', ':Trouble<cr>', opts)
+			vim.keymap.set('n', '<leader>T', ':Trouble<cr>', opts)
 		end
 	},
 	{
