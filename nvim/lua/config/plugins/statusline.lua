@@ -298,7 +298,7 @@ return {
 				info = { fg = colors.cyan },
 				hint = { fg = colors.blue },
 			},
-			padding = { left = 0, right = 0 },
+			padding = { left = 0, right = 1 },
 			color = { bg = colors.bgdark },
 		}
 
@@ -312,7 +312,7 @@ return {
 
 		ins_right {
 			'progress',
-			icon = { '', align = 'right' },
+			icon = { '%L ', align = 'right' },
 			color = { fg = colors.bg, bg = colors.green, gui = 'bold' },
 		}
 
