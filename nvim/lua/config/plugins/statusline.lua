@@ -274,6 +274,12 @@ return {
 		}
 
 		ins_right {
+			'searchcount',
+			padding = { left = 1, right = 0 },
+			color = { fg = colors.violet, gui = 'bold' },
+		}
+
+		ins_right {
 			function()
 				return ''
 			end,
@@ -283,7 +289,7 @@ return {
 
 		ins_right {
 			'diagnostics',
-			sources = { 'nvim_diagnostic', 'coc' },
+			sources = { 'nvim_lsp', 'coc' },
 			sections = { 'error', 'warn', 'info', 'hint' },
 			symbols = { error = '💩', warn = '🦠', info = '🫠', hint = '🤔' },
 			diagnostics_color = {
