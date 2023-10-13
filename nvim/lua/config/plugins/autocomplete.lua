@@ -158,17 +158,32 @@ M.configfunc = function()
 					end
 				end
 			}),
-			-- ["<Down>"] = cmp.mapping({
+			-- ["<Tab>"] = cmp.mapping({
+			-- 	c = function()
+			-- 		if cmp.visible() then
+			-- 			cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+			-- 		else
+			-- 			cmp.complete()
+			-- 		end
+			-- 	end,
 			-- 	i = function(fallback)
 			-- 		if cmp.visible() then
 			-- 			cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-			-- 		elseif has_words_before() then
-			-- 			cmp.complete()
+			-- 		elseif vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
+			-- 			vim.api.nvim_feedkeys(t("<Plug>(ultisnips_jump_forward)"), 'm', true)
 			-- 		else
 			-- 			fallback()
 			-- 		end
 			-- 	end,
+			-- 	s = function(fallback)
+			-- 		if vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
+			-- 			vim.api.nvim_feedkeys(t("<Plug>(ultisnips_jump_forward)"), 'm', true)
+			-- 		else
+			-- 			fallback()
+			-- 		end
+			-- 	end
 			-- }),
+
 			["<S-Tab>"] = cmp.mapping({
 				i = function(fallback)
 					if cmp.visible() then
