@@ -3,15 +3,6 @@ return {
 		"mfussenegger/nvim-dap",
 		keys = { "<leader>'t" },
 		dependencies = {
-			{
-				"ravenxrz/DAPInstall.nvim",
-				config = function()
-					local dap_install = require("dap-install")
-					dap_install.setup({
-						installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
-					})
-				end
-			},
 			"theHamsta/nvim-dap-virtual-text",
 			"rcarriga/nvim-dap-ui",
 			"nvim-telescope/telescope-dap.nvim",
