@@ -74,11 +74,12 @@ zinit wait lucid for \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions \
 	zsh-users/zsh-history-substring-search
-zinit snippet OMZP::git
-zinit snippet OMZP::web-search
-zinit snippet OMZL::clipboard.zsh # copy to clipboard
-zinit snippet OMZP::copypath
-zinit snippet OMZP::copyfile
+zinit wait"2" lucid for \
+	OMZP::git \
+	OMZP::web-search \
+	OMZL::clipboard.zsh \
+	OMZP::copypath \
+	OMZP::copyfile
 
 
 # Load powerlevel10k theme
