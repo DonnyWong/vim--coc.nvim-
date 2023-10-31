@@ -40,7 +40,9 @@ local configureDocAndSignature = function()
 					"CursorMovedI",
 					"BufHidden",
 					"InsertCharPre",
+					"InserEnter",
 					"WinLeave",
+					"ModeChange",
 				},
 			})
 		end,
