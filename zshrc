@@ -31,6 +31,12 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 # >>> node >>>
 export PATH="/usr/local/node/bin:$PATH"
 
+
+# >>> tensorflow >>>
+export LIBRARY_PATH=$LIBRARY_PATH:/Library/Developer/CommandLineTools/usr/lib
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/Library/Developer/CommandLineTools/usr/lib
+
+
 # Screen display
 # figlet -w 100 cheng xu hou lazy | lolcat
 cowsay -f monkey chengxuhoulazy|lolcat
