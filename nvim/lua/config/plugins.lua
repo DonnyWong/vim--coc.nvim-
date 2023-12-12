@@ -15,8 +15,6 @@ require("lazy").setup({
 	require("config.plugins.colorscheme"),
 	--搜索文件
 	require("config.plugins.telescope"),
-	--标题栏
-	require("config.plugins.tabline"),
 	--require("config.plugins.winbar"),
 	--状态栏
 	require("config.plugins.statusline"),
@@ -50,7 +48,7 @@ require("lazy").setup({
 	require("config.plugins.wilder"),
 	--AI code
 	require("config.plugins.copilot"),
-},{})
+}, {})
 
 require("config.compile_run")
 --主题颜色设置
