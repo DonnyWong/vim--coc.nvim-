@@ -101,6 +101,33 @@ return {
 				lualine_c = {},
 				lualine_x = {},
 			},
+			tabline = {
+				lualine_a = {
+					{
+						'buffers',
+						mode = 2,
+						section_separators = { left = '', right = '' },
+						use_mode_colors = true,
+						filetype_names = {
+							TelescopePrompt = ' Telescope',
+							alpha = ' Alpha',
+							minifiles = '󰉋 Minifiles',
+							toggleterm = '󰎁 Toggleterm',
+							checkhealth = ' Checkhealth',
+							oil = '󰉋 Oil',
+							aerial = ' Aerial',
+							lazy = '󰜢 Lazy',
+							g = '󰐤 G++',
+						},
+						disabled_buftypes = { 'terminal' },
+					},
+				},
+				lualine_b = {},
+				lualine_c = {},
+				lualine_x = {},
+				lualine_y = {},
+				lualine_z = {},
+			},
 		}
 
 		-- Inserts a component in lualine_c at left section
