@@ -48,6 +48,8 @@ require("lazy").setup({
 	require("config.plugins.wilder"),
 	--AI code
 	require("config.plugins.copilot"),
+	--做题
+	require("config.plugins.leetcode"),
 }, {})
 
 require("config.compile_run")
