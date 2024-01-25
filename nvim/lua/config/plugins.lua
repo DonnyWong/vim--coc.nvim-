@@ -45,7 +45,8 @@ require("lazy").setup({
 	--UNdotree
 	require("config.plugins.undo"),
 	--wildmenu
-	require("config.plugins.wilder"),
+	-- require("config.plugins.wilder"),
+	require("config.plugins.noice"),
 	--AI code
 	require("config.plugins.copilot"),
 	--做题
