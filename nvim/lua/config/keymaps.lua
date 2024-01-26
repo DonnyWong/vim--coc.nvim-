@@ -126,14 +126,16 @@ else
 	endif
 	if expand("%:e") == 'cpp'
 		call append(line(".")+6, "#include <bits/stdc++.h>")
-		call append(line(".")+7, "")
-		call append(line(".")+8, "int main(int argc, char *argv[]) {")
-		call append(line(".")+9, "	std::ios::sync_with_stdio(false);")
-		call append(line(".")+10, "	std::cin.tie(0);")
-		call append(line(".")+11, "	std::cout.tie(0);")
-		call append(line(".")+12, "")
-		call append(line(".")+13, "	return 0;")
-		call append(line(".")+14, "}")
+		call append(line(".")+7, "#define endl '\\n'")
+		call append(line(".")+8, "#define ll long long")
+		call append(line(".")+9, "")
+		call append(line(".")+10, "int main(int argc, char *argv[]) {")
+		call append(line(".")+11, "	std::ios::sync_with_stdio(false);")
+		call append(line(".")+12, "	std::cin.tie(0);")
+		call append(line(".")+13, "	std::cout.tie(0);")
+		call append(line(".")+14, "")
+		call append(line(".")+15, "	return 0;")
+		call append(line(".")+16, "}")
 
 		endif
 		if expand("%:e") == 'c'
