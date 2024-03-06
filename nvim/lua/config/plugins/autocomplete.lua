@@ -108,7 +108,7 @@ M.configfunc = function()
 			format = function(entry, vim_item)
 				local kind = lspkind.cmp_format({
 					mode = "symbol_text",
-					symbol_map = { Codeium = "", },
+					symbol_map = { Codeium = "", },
 				})(entry, vim_item)
 				local strings = vim.split(kind.kind, "%s", { trimempty = true })
 				kind.kind = " " .. (strings[1] or "") .. " "
@@ -118,6 +118,7 @@ M.configfunc = function()
 			end,
 		},
 		sources = cmp.config.sources({
+			-- { name = "codeium" },
 			{ name = "nvim_lsp" },
 			{ name = "buffer" },
 			{ name = "ultisnips" },
