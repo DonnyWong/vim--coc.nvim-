@@ -1,10 +1,11 @@
 return {
 	{
-		"mfussenegger/nvim-dap",
+		"rcarriga/nvim-dap-ui",
 		keys = { "<leader>'t" },
 		dependencies = {
 			"theHamsta/nvim-dap-virtual-text",
-			"rcarriga/nvim-dap-ui",
+			"mfussenegger/nvim-dap",
+			"nvim-neotest/nvim-nio",
 			"nvim-telescope/telescope-dap.nvim",
 		},
 		config = function()
