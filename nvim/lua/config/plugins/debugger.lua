@@ -70,7 +70,7 @@ return {
 			require("nvim-dap-virtual-text").setup()
 
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "c", "cpp", "cmake", "java", "rust", "lua", "vim", "vimdoc", "query", "python" },
+				ensure_installed = { "c", "cpp", "cmake", "java", "rust", "lua", "vim", "vimdoc", "query", "python", "json" },
 				auto_install = true,
 			})
 
