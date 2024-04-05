@@ -6,7 +6,6 @@ return {
 			"theHamsta/nvim-dap-virtual-text",
 			"mfussenegger/nvim-dap",
 			"nvim-neotest/nvim-nio",
-			{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 			"nvim-telescope/telescope-dap.nvim",
 		},
 		config = function()
@@ -69,10 +68,6 @@ return {
 			})
 			require("nvim-dap-virtual-text").setup()
 
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "c", "cpp", "cmake", "java", "rust", "lua", "vim", "vimdoc", "query", "python", "json" },
-				auto_install = true,
-			})
 
 			local m = { noremap = true }
 			vim.keymap.set("n", "<leader>'q", ":Telescope dap<CR>", m)
