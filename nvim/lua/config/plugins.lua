@@ -30,6 +30,8 @@ require("lazy").setup({
 	require("config.plugins.debugger"),
 	--treesitter
 	require("config.plugins.treesitter"),
+	--outline
+	require("config.plugins.outline"),
 	--多行注释,单行注释gcc，多行注释vgc
 	require("config.plugins.comment"),
 	--Change Surround examples Press cs"'
