@@ -1,7 +1,7 @@
 return {
 	"folke/noice.nvim",
-	event = "VeryLazy",
-	-- keys = { ":", "?", "/" },
+	-- event = "VeryLazy",
+	keys = { ":", "?", "/" },
 	opts = {
 		-- add any options here
 	},
