@@ -1,5 +1,10 @@
 vim.opt.termguicolors = true
 vim.o.ttyfast = true
+--更改提示图标
+vim.fn.sign_define("DiagnosticSignError", { text = "💩", texthl = "DiagnosticSignError" })
+vim.fn.sign_define("DiagnosticSignWarn", { text = "🦠", texthl = "DiagnosticSignWarn" })
+vim.fn.sign_define("DiagnosticSignInfo", { text = "🫠", texthl = "DiagnosticSignInfo" })
+vim.fn.sign_define("DiagnosticSignHint", { text = "🤔", texthl = "DiagnosticSignHint" })
 --自动切换工作目录
 vim.o.autochdir = true
 vim.o.exrc = true
