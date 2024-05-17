@@ -15,7 +15,7 @@ require("lazy").setup({
 	require("config.plugins.colorscheme"),
 	--搜索文件
 	require("config.plugins.telescope"),
-	--require("config.plugins.winbar"),
+	require("config.plugins.winbar"),
 	--状态栏
 	require("config.plugins.statusline"),
 	--Autocomplete
