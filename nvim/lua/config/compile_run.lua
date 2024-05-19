@@ -2,6 +2,7 @@ local split = function()
 	vim.cmd("set splitbelow")
 	vim.cmd("sp")
 	vim.cmd("res -5")
+	vim.cmd("startinsert")
 end
 local compileRun = function()
 	vim.cmd("w")
@@ -32,9 +33,7 @@ local compileRun = function()
 	elseif ft == 'html' then
 		split()
 		vim.cmd("term google-chrome % &")
-
 	end
 end
 
-vim.keymap.set('n', 'r', compileRun, {silent = true })
-
+vim.keymap.set('n', 'r', compileRun, { silent = true })
