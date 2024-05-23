@@ -113,93 +113,102 @@ return {
 			-- "folke/neodev.nvim",
 			-- "ray-x/lsp_signature.nvim",
 			-- {
-			-- 	"lvimuser/lsp-inlayhints.nvim",
-			-- 	branch = "anticonceal",
-			-- },
-		},
+				-- 	"lvimuser/lsp-inlayhints.nvim",
+				-- 	branch = "anticonceal",
+				-- },
+			},
 
-		config = function()
-			local lsp = require('lsp-zero').preset({})
+			config = function()
+				local lsp = require('lsp-zero').preset({})
 
 
-			lsp.on_attach(function(client, bufnr)
-				lsp.default_keymaps({ buffer = bufnr })
-				client.server_capabilities.semanticTokensProvider = nil
-				require("config.plugins.autocomplete").configfunc()
-				vim.diagnostic.config({
-					severity_sort = true,
-					underline = true,
-					signs = true,
-					virtual_text = false,
-					update_in_insert = false,
-					float = true,
-				})
-			end)
-
-			lsp.set_sign_icons({
-				error = '✘',
-				warn = '▲',
-				hint = '⚑',
-				info = '»'
-			})
-
-			lsp.set_server_config({
-				on_init = function(client)
+				lsp.on_attach(function(client, bufnr)
+					lsp.default_keymaps({ buffer = bufnr })
 					client.server_capabilities.semanticTokensProvider = nil
-				end,
-			})
+					require("config.plugins.autocomplete").configfunc()
+					vim.diagnostic.config({
+						severity_sort = true,
+						underline = true,
+						signs = true,
+						virtual_text = false,
+						update_in_insert = false,
+						float = true,
+					})
+				end)
 
-			lsp.format_on_save({
-				format_opts = {
-					-- async = false,
-					-- timeout_ms = 10000,
-				},
-			})
+				lsp.set_sign_icons({
+					error = '✘',
+					warn = '▲',
+					hint = '⚑',
+					info = '»'
+				})
+
+				lsp.set_server_config({
+					on_init = function(client)
+						client.server_capabilities.semanticTokensProvider = nil
+					end,
+				})
+
+				lsp.format_on_save({
+					format_opts = {
+						-- async = false,
+						-- timeout_ms = 10000,
+					},
+				})
 
 
-			local lspconfig = require('lspconfig')
+				local lspconfig = require('lspconfig')
 
-			lsp.setup()
-			require("fidget").setup({})
+				lsp.setup()
+				require("fidget").setup({})
 
-			local lsp_defaults = lspconfig.util.default_config
-			lsp_defaults.capabilities = vim.tbl_deep_extend(
-			'force',
-			lsp_defaults.capabilities,
-			require('cmp_nvim_lsp').default_capabilities()
-			)
+				local lsp_defaults = lspconfig.util.default_config
+				lsp_defaults.capabilities = vim.tbl_deep_extend(
+				'force',
+				lsp_defaults.capabilities,
+				require('cmp_nvim_lsp').default_capabilities()
+				)
 
 
-			configureDocAndSignature()
-			configureKeybinds()
+				configureDocAndSignature()
+				configureKeybinds()
 
-			local format_on_save_filetypes = {
-				dart = true,
-				json = true,
-				lua = true,
-				python = true,
-				cpp = true,
-				c = true,
-				rust = true,
-				java = true,
-				sh = true,
-				cmake = true,
-			}
-
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				pattern = "*",
-				callback = function()
-					if format_on_save_filetypes[vim.bo.filetype] then
-						local lineno = vim.api.nvim_win_get_cursor(0)
-						vim.lsp.buf.format({ async = false })
-						vim.api.nvim_win_set_cursor(0, lineno)
-						-- 设置自动缩进4个宽度
-						vim.api.nvim_exec([[
-						:normal! mzgg=G`z
-						]], false)
-					end
-				end,
-			})
-		end
-	},
-}
+				local format_on_save_filetypes = {
+					dart = true,
+					json = true,
+					lua = true,
+					python = true,
+					cpp = true,
+					c = true,
+					rust = true,
+					java = true,
+					sh = true,
+					cmake = true,
+				}
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					pattern = "*",
+					callback = function()
+						if format_on_save_filetypes[vim.bo.filetype] then
+							-- 保存当前光标位置
+							local lineno = vim.api.nvim_win_get_cursor(0)
+							-- 执行代码格式化
+							vim.lsp.buf.format({ async = false })
+							-- 获取文件行数
+							local line_count = vim.api.nvim_buf_line_count(0)
+							-- 确保光标位置在合法范围内
+							if lineno[1] > line_count then
+								lineno[1] = line_count
+							end
+							-- 重新设置光标位置
+							vim.api.nvim_win_set_cursor(0, lineno)
+							-- 设置自动缩进宽度为4
+							-- 自动缩进整个文件
+							vim.api.nvim_exec([[
+							:normal! mzgg=G`z
+							]], false)
+						end
+					end,
+				})
+			end
+		},
+	}
