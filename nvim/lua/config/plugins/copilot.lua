@@ -23,7 +23,6 @@ return {
 				-- {
 					-- 	"Exafunction/codeium.vim",
 					-- 	config = function()
-						-- 	vim.api.nvim_del_keymap('i', '<Right>') -- Disable default right arrow key
 						-- 		vim.g.codeium_disable_bindings = 1
 						-- 		vim.keymap.set('i', '<C-c>', function() return vim.fn['codeium#Accept']() end, { expr = true })
 						-- 		vim.keymap.set('i', '<c-[>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
