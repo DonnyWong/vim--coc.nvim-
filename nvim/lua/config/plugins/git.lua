@@ -5,32 +5,22 @@ return {
 		config = function()
 			require('gitsigns').setup({
 				signs = {
-					add          = { hl = 'GitSignsAdd', text = '▎', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-					change       = {
-						hl = 'GitSignsChange',
-						text = '░',
-						numhl = 'GitSignsChangeNr',
-						linehl = 'GitSignsChangeLn'
+					signs        = {
+						add          = { text = '┃' },
+						change       = { text = '░' },
+						delete       = { text = '_' },
+						topdelete    = { text = '▔' },
+						changedelete = { text = '▒' },
+						untracked    = { text = '┆' },
 					},
-					delete       = {
-						hl = 'GitSignsDelete',
-						text = '_',
-						numhl = 'GitSignsDeleteNr',
-						linehl = 'GitSignsDeleteLn'
+					signcolumn   = true, -- Toggle with `:Gitsigns toggle_signs`
+					numhl        = true, -- Toggle with `:Gitsigns toggle_numhl`
+					linehl       = true, -- Toggle with `:Gitsigns toggle_linehl`
+					word_diff    = true, -- Toggle with `:Gitsigns toggle_word_diff`
+					watch_gitdir = {
+						follow_files = true
 					},
-					topdelete    = {
-						hl = 'GitSignsDelete',
-						text = '▔',
-						numhl = 'GitSignsDeleteNr',
-						linehl = 'GitSignsDeleteLn'
-					},
-					changedelete = {
-						hl = 'GitSignsChange',
-						text = '▒',
-						numhl = 'GitSignsChangeNr',
-						linehl = 'GitSignsChangeLn'
-					},
-					untracked    = { hl = 'GitSignsAdd', text = '┆', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+					auto_attach  = true,
 				},
 			})
 			vim.keymap.set("n", "<leader>g-", ":Gitsigns prev_hunk<CR>", { noremap = true, silent = true })
@@ -51,10 +41,10 @@ return {
 		end
 	},
 	-- {
-	-- 	"APZelos/blamer.nvim",
-	-- 	config = function()
-	-- 		vim.g.blamer_enabled = true
-	-- 		vim.g.blamer_relative_time = true
-	-- 	end
-	-- }
-}
+		-- 	"APZelos/blamer.nvim",
+		-- 	config = function()
+			-- 		vim.g.blamer_enabled = true
+			-- 		vim.g.blamer_relative_time = true
+			-- 	end
+			-- }
+		}
