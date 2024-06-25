@@ -127,9 +127,9 @@ else
 	if expand("%:e") == 'cpp'
 		call append(line(".")+6, "#include <bits/stdc++.h>")
 		call append(line(".")+7, "#define endl '\\n'")
-		call append(line(".")+8, "#define ll long long")
-		call append(line(".")+9, "#define cin std::cin")
-		call append(line(".")+10, "#define cout std::cout")
+		call append(line(".")+8, "typedef long long ll;")
+		call append(line(".")+9, "using std::cin;")
+		call append(line(".")+10, "using std::cout;")
 		call append(line(".")+11, "")
 		call append(line(".")+12, "void solve();")
 		call append(line(".")+13, "int main(int argc, char *argv[]) {")
