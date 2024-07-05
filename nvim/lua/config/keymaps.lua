@@ -118,8 +118,8 @@ elseif expand("%:e") == 'py'
 else
 	call setline(1,"/*#########################################################################")
 	call append(line("."), "\# File Name: ".expand("%"))
-	call append(line(".")+1, "\# Author:程序猴很懒")
-	call append(line(".")+2, "\# 欢迎关注、点赞、评论、转发四连击")
+	call append(line(".")+1, "\# Author:狌狌编程")
+	call append(line(".")+2, "\# Contact:xxcoding")
 	call append(line(".")+3, "\# Created Time: ".strftime("%c"))
 	call append(line(".")+4, "#########################################################################*/")
 	call append(line(".")+5, "")
