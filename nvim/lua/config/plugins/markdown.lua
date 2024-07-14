@@ -61,7 +61,7 @@ return {
 					highlight = 'Normal',
 				},
 				checkbox = {
-					-- Turn on / off checkbox state rendering
+					-- Turn on / off checkbox state
 					enabled = true,
 					unchecked = {
 						-- Replaces '[ ]' of 'task_list_marker_unchecked'
