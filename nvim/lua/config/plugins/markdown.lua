@@ -1,6 +1,7 @@
 return {
 	{
 		'MeanderingProgrammer/markdown.nvim',
+		ft = { "markdown" },
 		config = function()
 			require('render-markdown').setup({
 				heading = {
