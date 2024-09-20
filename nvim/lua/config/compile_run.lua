@@ -28,6 +28,8 @@ local compileRun = function()
 	elseif ft == 'java' then
 		split()
 		vim.cmd("term javac % && time java %<")
+	elseif ft == "markdown" then
+		vim.cmd(":InstantMarkdownPreview")
 	elseif ft == 'html' then
 		split()
 		vim.cmd("term google-chrome % &")
