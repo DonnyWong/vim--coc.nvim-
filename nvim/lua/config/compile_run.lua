@@ -21,7 +21,7 @@ local compileRun = function()
 		vim.cmd("term gcc -std=c17 % -o %< && time ./%<")
 	elseif ft == 'cpp' then
 		split()
-		vim.cmd("term g++ -std=c++20 % -o %< && time ./%<")
+		vim.cmd("term g++ -std=c++26 % -o %< && time ./%<")
 	elseif ft == 'sh' then
 		split()
 		vim.cmd("term bash %")
