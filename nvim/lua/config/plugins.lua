@@ -19,9 +19,6 @@ require("lazy").setup({
 	--状态栏
 	require("config.plugins.statusline"),
 	--Autocomplete
-	--require("config.plugins.autocomplete").config,
-	--require("config.plugins.lspconfig"),
-	--require("config.plugins.snippets"),
 	require("config.plugins.blink"),
 	--通知消息
 	require("config.plugins.notify"),
