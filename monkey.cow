@@ -1,6 +1,6 @@
 ##
 ## The monkey.
-##/usr/local/Cellar/cowsay/3.04_1/share/cows
+##/usr/local/Cellar/cowsay/3.8.4/share/cowsay/cows
 $the_cow = <<EOC
        ⣀⣠⣤⣤⣄⡀
     ⣀⣴⣫⣫⣫⣫⣫⣫⣟⣧
