@@ -14,9 +14,9 @@ return {
     -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
     -- see the "default configuration" section below for full documentation on how to define
     -- your own keymap.
-    keymap = { preset = 'super-tab' },
+    keymap = { preset = 'enter' },
 
-    highlight = {
+    appearance = {
       -- sets the fallback highlight groups to nvim-cmp's highlight groups
       -- useful for when your theme doesn't support blink.cmp
       -- will be removed in a future release, assuming themes add support
@@ -25,6 +25,14 @@ return {
     -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
     -- adjusts spacing to ensure icons are aligned
     nerd_font_variant = 'normal',
+
+	-- default list of enabled providers defined so that you can extend it
+    -- elsewhere in your config, without redefining it, via `opts_extend`
+    sources = {
+      completion = {
+        enabled_providers = { 'lsp', 'path', 'snippets', 'buffer' },
+      },
+    },
 
     -- experimental auto-brackets support
     -- accept = { auto_brackets = { enabled = true } }
