@@ -1,10 +1,9 @@
 return {
 	'saghen/blink.cmp',
-  lazy = false, -- lazy loading handled internally
   -- optional: provides snippets for the snippet source
   dependencies = 'rafamadriz/friendly-snippets',
 
-  version = 'v0.*',
+  version = '*',
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
@@ -21,17 +20,15 @@ return {
       -- useful for when your theme doesn't support blink.cmp
       -- will be removed in a future release, assuming themes add support
       use_nvim_cmp_as_default = true,
+	  -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- adjusts spacing to ensure icons are aligned
+      nerd_font_variant = 'normal',
     },
-    -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-    -- adjusts spacing to ensure icons are aligned
-    nerd_font_variant = 'normal',
 
 	-- default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, via `opts_extend`
     sources = {
-      completion = {
-        enabled_providers = { 'lsp', 'path', 'snippets', 'buffer' },
-      },
+		default = { 'lsp', 'path', 'snippets', 'buffer' },
     },
 
     -- experimental auto-brackets support
@@ -42,5 +39,5 @@ return {
   },
   -- allows extending the enabled_providers array elsewhere in your config
   -- without having to redefining it
-  opts_extend = { "sources.completion.enabled_providers" }
+  opts_extend = { "sources.default" }
 }
