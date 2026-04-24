@@ -116,7 +116,7 @@ elseif expand("%:e") == 'py'
 	call append(line(".")+5, "\#########################################################################")
 	call append(line(".")+6, "")
 else
-	call setline(1,"// 微信:Donnyooo")
+	call setline(1,"/* 👉微信:Donnyooo */")
 	endif
 	if expand("%:e") == 'cpp'
 		call append(line("."), "#include <bits/stdc++.h>")
