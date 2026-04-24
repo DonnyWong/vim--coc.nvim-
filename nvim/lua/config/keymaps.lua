@@ -123,7 +123,7 @@ else
 		call append(line(".")+1, "#define endl '\\n'")
 		call append(line(".")+2, "#define int long long")
 		call append(line(".")+3, "using std::cin,std::cout,std::string,std::vector;")
-		ca[118;1:3ull append(line(".")+4, "const int MAXN = 1e5 + 10;")
+		call append(line(".")+4, "const int MAXN = 1e5 + 10;")
 		call append(line(".")+5, "void solve();")
 		call append(line(".")+6, "signed main() {")
 		call append(line(".")+7, "	std::ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);")
