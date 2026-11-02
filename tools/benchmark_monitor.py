@@ -21,7 +21,7 @@ def main():
     if not 2 <= args.samples <= 720:
         parser.error("--samples must be between 2 and 720")
     core = monitor.CoreSampler(monitor.NativeReader())
-    core.get()  # Exclude interpreter/framework startup.
+    core.get()  # Exclude interpreter startup.
     cpu_start, wall_start = time.process_time(), time.perf_counter()
     times = []
     errors = {}
@@ -37,7 +37,7 @@ def main():
                       "process_cpu_seconds": cpu_seconds,
                       "process_cpu_percent_one_core": 100 * cpu_seconds / wall_seconds,
                       "sample_median_ms": statistics.median(times), "sample_max_ms": max(times),
-                      "peak_rss_mib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / monitor.MIB,
+                      "peak_rss_mib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024 ** 2),
                       "errors": errors}, indent=2))
 
 

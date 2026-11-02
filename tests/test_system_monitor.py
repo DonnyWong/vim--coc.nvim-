@@ -1,6 +1,5 @@
 import asyncio
 import copy
-import ctypes as C
 import importlib.util
 import json
 import os
@@ -18,10 +17,7 @@ spec.loader.exec_module(m)
 
 
 def snapshot():
-    return {"cpu_ticks": (10, 10, 80, 0), "pressure_level": 1,
-            "swap_bytes": m.GIB, "physical_bytes": 24 * m.GIB, "thermal_level": 0,
-            "vm": {"compressed_bytes": 2 * m.GIB, "swapout_pages": 10,
-                   "page_size": 16384}, "errors": {}}
+    return {"cpu_ticks": (10, 10, 80, 0), "errors": {}}
 
 
 class FakeReader:
@@ -43,7 +39,6 @@ class CoreTests(unittest.TestCase):
         self.assertIsNone(self.core.get()["cpu_percent"])
         self.now = 5
         self.assertIsNone(self.core.get()["cpu_percent"])
-        self.assertEqual(self.core.get()["swapout_bytes_per_second"], 0)
 
     def test_cpu_is_system_average_not_process_sum(self):
         self.core.get()
@@ -65,44 +60,21 @@ class CoreTests(unittest.TestCase):
         self.core.get()
         self.assertEqual(self.reader.calls, 2)
 
-    def test_swapout_rate_uses_actual_page_size(self):
-        for page_size in (4096, 16384):
-            with self.subTest(page_size=page_size):
-                reader = FakeReader()
-                reader.data["vm"]["page_size"] = page_size
-                now = [0]
-                core = m.CoreSampler(reader, clock=lambda: now[0])
-                core.get()
-                now[0] = 10
-                reader.data["vm"]["swapout_pages"] += 100
-                self.assertEqual(core.get()["swapout_bytes_per_second"], 10 * page_size)
-
-    def test_long_gap_and_counter_reset_reprime_rates(self):
+    def test_long_gap_reprimes_cpu_baseline(self):
         self.core.get()
         self.now = 500
         self.assertIsNone(self.core.get()["cpu_percent"])
-        self.assertIsNone(self.core.get()["swapout_bytes_per_second"])
         self.now = 505
-        self.reader.data["vm"]["swapout_pages"] = 0
-        self.assertIsNone(self.core.get()["swapout_bytes_per_second"])
+        self.reader.data["cpu_ticks"] = (30, 20, 140, 10)
+        self.assertAlmostEqual(self.core.get()["cpu_percent"], 40)
 
-    def test_failure_does_not_reuse_old_pressure_or_swap(self):
+    def test_failure_does_not_reuse_old_cpu_reading(self):
         self.core.get()
         self.now = 5
-        self.reader.data.update(pressure_level=None, swap_bytes=None, vm=None, cpu_ticks=None)
+        self.reader.data["cpu_ticks"] = None
         result = self.core.get()
         self.assertIsNone(result["cpu_percent"])
-        self.assertIsNone(result["swapout_bytes_per_second"])
-        self.assertIn("Mem N/A | Swap N/A", m.memory_text(result)[0])
-
-    def test_pressure_is_dispatch_values_not_internal_enum_or_free_percent(self):
-        for raw, expected in ((1, "Normal"), (2, "Warning"), (4, "Critical"),
-                              (0, "N/A"), (3, "N/A"), (99, "N/A"), (None, "N/A")):
-            with self.subTest(raw=raw):
-                data = snapshot()
-                data["pressure_level"] = raw
-                self.assertIn("Mem " + expected, m.memory_text(data)[-1])
-                self.assertIn("Swap 1.0G", m.memory_text(data)[-1])
+        self.assertEqual(set(result), {"cpu_ticks", "cpu_percent", "errors"})
 
 
 class ConfigAndParsingTests(unittest.TestCase):
@@ -118,18 +90,14 @@ class ConfigAndParsingTests(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         m.load_config(path)
 
-    def test_numeric_readings_zero_fan_and_multiple_fans(self):
+    def test_numeric_temperature_reading(self):
         self.assertEqual(m.parse_sensor(" 48.5\n"), 48.5)
-        self.assertEqual(m.parse_sensor("0\n2100.5\n", fan=True), [0, 2100.5])
 
     def test_invalid_sensor_output_is_not_a_measurement(self):
         for text in ("", "\n", "unsupported M6", "Error 42", "NaN", "inf", "0",
                      "-1", "999", "48°C", "48\n49", "\x1b[31m48"):
             with self.subTest(text=text), self.assertRaises(ValueError):
                 m.parse_sensor(text)
-        for text in ("", "No fans found", "-5", "20001", "1\n" * 17):
-            with self.subTest(text=text), self.assertRaises(ValueError):
-                m.parse_sensor(text, fan=True)
 
     def test_path_discovery_and_explicit_override(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -163,8 +131,9 @@ class AsyncTests(unittest.IsolatedAsyncioTestCase):
         with patch.object(iterm2.registration, "async_subscribe_to_server_originated_rpc_notification", subscribe):
             await m.register_components(None, iterm2, m.CoreSampler(FakeReader()),
                                         m.SensorSampler(m.DEFAULTS), m.DEFAULTS)
-        self.assertEqual(len(registered), 6)
-        self.assertEqual(len({r["name"] for r in registered}), 6)
+        self.assertEqual({r["name"] for r in registered},
+                         {"system_monitor_cpu_usage", "system_monitor_cpu_temperature"})
+        self.assertEqual(len(registered), 2)
 
     async def test_disabled_and_missing_backend_never_spawn(self):
         async def forbidden(*args):
@@ -173,20 +142,20 @@ class AsyncTests(unittest.IsolatedAsyncioTestCase):
             config = dict(m.DEFAULTS, enable_istats=enabled)
             with patch.object(m, "find_istats", return_value=None):
                 sensors = m.SensorSampler(config, runner=forbidden)
-                self.assertIsNone((await sensors.get("fan"))["value"])
+                self.assertIsNone((await sensors.get())["value"])
 
     async def test_sensor_cache_shares_work_across_concurrent_sessions(self):
         calls = []
         async def run(argv):
             calls.append(argv)
             await asyncio.sleep(0.01)
-            return "0\n2000\n"
+            return "48.5\n"
         with patch.object(m, "find_istats", return_value="/opt/homebrew/bin/istats"):
             sensors = m.SensorSampler(dict(m.DEFAULTS, enable_istats=True), runner=run)
-        results = await asyncio.gather(*(sensors.get("fan") for _ in range(20)))
+        results = await asyncio.gather(*(sensors.get() for _ in range(20)))
         self.assertEqual(len(calls), 1)
-        self.assertEqual(results[0]["value"], [0, 2000])
-        self.assertEqual(calls[0][-3:], ["fan", "speed", "--value-only"])
+        self.assertEqual(results[0]["value"], 48.5)
+        self.assertEqual(calls[0][-3:], ["cpu", "temp", "--value-only"])
 
     async def test_error_clears_old_reading_backoff_and_recovery(self):
         now, calls = [0], []
@@ -198,26 +167,18 @@ class AsyncTests(unittest.IsolatedAsyncioTestCase):
         with patch.object(m, "find_istats", return_value="/fake/istats"):
             sensors = m.SensorSampler(dict(m.DEFAULTS, enable_istats=True), runner=run,
                                       clock=lambda: now[0])
-        self.assertEqual((await sensors.get("temperature"))["value"], 52)
+        self.assertEqual((await sensors.get())["value"], 52)
         now[0] = 30
-        self.assertIsNone((await sensors.get("temperature"))["value"])
+        self.assertIsNone((await sensors.get())["value"])
         now[0] = 89
-        await sensors.get("temperature")
+        await sensors.get()
         self.assertEqual(len(calls), 2)
         now[0] = 90
-        self.assertIsNone((await sensors.get("temperature"))["value"])
-        self.assertEqual(sensors.next_read["temperature"], 210)
+        self.assertIsNone((await sensors.get())["value"])
+        self.assertEqual(sensors.next_read, 210)
         now[0] = 210
-        self.assertEqual((await sensors.get("temperature"))["value"], 52)
-        self.assertEqual(sensors.failures["temperature"], 0)
-
-    async def test_temperature_failure_does_not_hide_valid_fan(self):
-        async def run(argv):
-            return "unsupported" if "cpu" in argv else "1000"
-        with patch.object(m, "find_istats", return_value="/fake/istats"):
-            sensors = m.SensorSampler(dict(m.DEFAULTS, enable_istats=True), runner=run)
-        self.assertIsNone((await sensors.get("temperature"))["value"])
-        self.assertEqual((await sensors.get("fan"))["value"], [1000])
+        self.assertEqual((await sensors.get())["value"], 52)
+        self.assertEqual(sensors.failures, 0)
 
     async def test_subprocess_success_stderr_and_literal_arguments(self):
         text = await m.run_command([sys.executable, "-c",
@@ -253,7 +214,7 @@ class AsyncTests(unittest.IsolatedAsyncioTestCase):
                 with self.assertRaises(ProcessLookupError):
                     os.kill(pid, 0)
 
-    async def test_registration_keeps_legacy_ids_and_shared_sampling(self):
+    async def test_registration_only_exposes_cpu_usage_and_temperature(self):
         registered = []
         class API:
             StatusBarRPC = staticmethod(lambda f: f)
@@ -265,36 +226,23 @@ class AsyncTests(unittest.IsolatedAsyncioTestCase):
         reader = FakeReader()
         await m.register_components(None, API, m.CoreSampler(reader),
                                     m.SensorSampler(m.DEFAULTS), m.DEFAULTS)
-        self.assertEqual(len(registered), 6)
-        self.assertEqual(len({f.__name__ for _, f in registered}), 6)
+        self.assertEqual(len(registered), 2)
+        self.assertEqual(len({f.__name__ for _, f in registered}), 2)
         ids = {o["identifier"] for o, _ in registered}
-        for suffix in ("mem_usage", "cpu_temperature", "fan_speed", "power_wattage"):
-            self.assertIn("vxider.iterm-components." + suffix, ids)
+        self.assertEqual(ids, {"vxider.iterm-components.cpu_usage", "vxider.iterm-components.cpu_temperature"})
         values = [await f() for _, f in registered]
         self.assertEqual(reader.calls, 1)
-        self.assertIn("Thermal Nominal", values)
-        self.assertIn("Fan N/A", values)
-        self.assertIn("Power N/A", values)
+        self.assertEqual(values, ["CPU N/A", "Temp N/A"])
 
 
 @unittest.skipUnless(sys.platform == "darwin", "Native APIs require macOS")
 class NativeTests(unittest.TestCase):
-    def test_native_cpu_vm_and_thermal_smoke(self):
-        self.assertEqual(C.sizeof(m.VMStatistics64), 152)
-        self.assertEqual(C.sizeof(m.SwapUsage), 32)
+    def test_native_cpu_only_smoke(self):
         data = m.NativeReader().read()
+        self.assertEqual(set(data), {"cpu_ticks", "errors"})
+        self.assertEqual(data["errors"], {})
         self.assertEqual(len(data["cpu_ticks"]), 4)
-        self.assertIn(data["vm"]["page_size"], (4096, 16384))
-        self.assertGreaterEqual(data["vm"]["compressed_bytes"], 0)
-        self.assertIn(data["thermal_level"], m.THERMAL)
-        # Restricted sandboxes may deny sysctl; denial must stay unknown, never normal.
-        for key in ("pressure_level", "swap_bytes", "physical_bytes"):
-            if data[key] is None:
-                self.assertIn(key, data["errors"])
-            else:
-                self.assertGreaterEqual(data[key], 0)
-        if data["pressure_level"] is not None:
-            self.assertIn(data["pressure_level"], m.PRESSURE)
+        self.assertTrue(all(0 <= n < 2**32 for n in data["cpu_ticks"]))
 
 
 if __name__ == "__main__":
