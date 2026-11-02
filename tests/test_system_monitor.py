@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 
 MODULE = Path(__file__).resolve().parents[1] / "AutoLaunch/system_monitor.py"
@@ -78,6 +78,29 @@ class CoreTests(unittest.TestCase):
 
 
 class ConfigAndParsingTests(unittest.TestCase):
+    def test_entrypoint_uses_safe_default_config_and_explicit_override(self):
+        with tempfile.TemporaryDirectory() as folder:
+            home = Path(folder)
+            config = home / 'Library/Application Support/iTerm2/system_monitor.json'
+            config.parent.mkdir(parents=True)
+            config.write_text('{"interval": 10}')
+            script = config.parent / 'Scripts/AutoLaunch/system_monitor.py'
+            script.parent.mkdir(parents=True)
+            # The obsolete location must not be used by the new default.
+            script.with_suffix('.json').write_text('{"unknown": "old configuration"}')
+            override = home / 'custom.json'
+            override.write_text('{"interval": 15}')
+            for extra_args, interval in (([], 10), (['--config', str(override)], 15)):
+                with self.subTest(extra_args=extra_args), \
+                        patch.object(m.Path, 'home', return_value=home), \
+                        patch.object(m, '__file__', str(script)), \
+                        patch.object(m.sys, 'argv', ['system_monitor.py', '--diagnose', '--samples', '1'] + extra_args), \
+                        patch.object(m, 'diagnose', new_callable=AsyncMock) as diagnose:
+                    m.entrypoint()
+                    diagnose.assert_awaited_once()
+                    self.assertEqual(diagnose.await_args.args[0]['interval'], interval)
+                    self.assertEqual(diagnose.await_args.args[1], 1)
+
     def test_defaults_and_invalid_config(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "settings.json"

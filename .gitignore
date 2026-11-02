@@ -1,3 +1,4 @@
 __pycache__/
 *.pyc
 AutoLaunch/system_monitor.json
+system_monitor.json

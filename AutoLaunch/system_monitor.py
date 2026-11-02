@@ -24,6 +24,11 @@ DEFAULTS = {"interval": 5, "sensor_interval": 30,
             "enable_istats": False, "istats_path": None}
 
 
+def default_config_path():
+    # iTerm2 launches every non-hidden AutoLaunch entry, including JSON files.
+    return Path.home() / "Library/Application Support/iTerm2/system_monitor.json"
+
+
 def load_config(path):
     config = DEFAULTS.copy()
     if path.exists():
@@ -273,7 +278,8 @@ def entrypoint():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--diagnose", action="store_true", help="print JSON without importing iterm2")
     parser.add_argument("--samples", type=int, default=2, help="diagnostic samples, 1–720 (default 2)")
-    parser.add_argument("--config", type=Path, default=Path(__file__).with_suffix(".json"))
+    parser.add_argument("--config", type=Path, default=default_config_path(),
+                        help="JSON config outside Scripts/AutoLaunch (default: %(default)s)")
     args = parser.parse_args()
     if not 1 <= args.samples <= 720:
         parser.error("--samples must be between 1 and 720")

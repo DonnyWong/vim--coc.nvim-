@@ -18,8 +18,14 @@
 set -eu
 monitor_scripts="$HOME/Library/Application Support/iTerm2/Scripts"
 monitor_auto="$monitor_scripts/AutoLaunch"
+monitor_config="$HOME/Library/Application Support/iTerm2/system_monitor.json"
 mkdir -p "$monitor_auto"
 monitor_backup="$(mktemp -d "$monitor_scripts/monitor-backup.XXXXXX")"
+if [ -e "$monitor_config" ]; then
+    cp "$monitor_config" "$monitor_backup/system_monitor.current.json"
+elif [ -f "$monitor_auto/system_monitor.json" ]; then
+    cp "$monitor_auto/system_monitor.json" "$monitor_config"
+fi
 for monitor_file in cpu_temperature.py fan_speed.py memory_usage.py power_wattage.py system_monitor.py system_monitor.json; do
     if [ -e "$monitor_auto/$monitor_file" ]; then
         mv "$monitor_auto/$monitor_file" "$monitor_backup/"
@@ -35,11 +41,16 @@ printf 'Backup: %s\n' "$monitor_backup"
 ```sh
 brew install macmon
 macmon pipe --samples 1 --interval 100
-cp system_monitor.example.json "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/system_monitor.json"
+monitor_config="$HOME/Library/Application Support/iTerm2/system_monitor.json"
+if [ ! -e "$monitor_config" ]; then
+    cp system_monitor.example.json "$monitor_config"
+fi
 ```
 
 4. Settings → General → Magic → **Enable Python API**。重启 iTerm2，或从 Scripts → AutoLaunch 启动一次 `system_monitor`。
 5. Profiles → Session → Status bar enabled → Configure Status Bar，添加 **CPU Usage、CPU Temperature**。移除旧的 Memory Pressure、Thermal State、Fan Speed 和 Power 组件，避免留下无法调用的旧组件。温度的旧 identifier `vxider.iterm-components.cpu_temperature` 保留。
+
+配置必须放在 `~/Library/Application Support/iTerm2/system_monitor.json`，位于 `Scripts` 目录外。**不要将 JSON 放入 AutoLaunch**：iTerm2 会尝试启动其中的文件，导致“应用程序 system_monitor.json 无法打开”。上述迁移命令会保留旧配置内容，并将旧位置的 JSON 移入备份。`--config` 仍可指定其他位于 AutoLaunch 外的文件。
 
 原有 Sushi、网络、路径等其他组件由用户自己的布局决定，迁移命令只替换监控脚本。卸载时停止 `system_monitor`，把脚本移出 AutoLaunch 并移除这两个组件；回滚时把备份脚本移回并重启。
 
@@ -55,7 +66,7 @@ CPU 默认 **5 秒**刷新一次，多个窗口和分屏共享缓存。没有组
 可选配置，修改后重启脚本：
 
 ```sh
-cp system_monitor.example.json "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/system_monitor.json"
+cp system_monitor.example.json "$HOME/Library/Application Support/iTerm2/system_monitor.json"
 ```
 
 - `interval`：CPU 刷新间隔，5–60 秒，默认 5。

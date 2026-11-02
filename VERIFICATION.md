@@ -11,7 +11,8 @@
 
 ## 自动检查与本机运行
 
-- Python 3.12.13：26 项测试通过，包括真实 iTerm2 库的注册协议、CPU 缓存、macmon JSON 解析、缺失/无效 CPU 传感器、GPU 不回退、多会话单次读取、超时回收、失败退避，以及命令耗时不会额外跳过刷新周期。
+- Python 3.12.13：27 项测试通过，包括真实 iTerm2 库的注册协议、CPU 缓存、macmon JSON 解析、缺失/无效 CPU 传感器、GPU 不回退、多会话单次读取、超时回收、失败退避，以及命令耗时不会额外跳过刷新周期。
+- 配置默认放在 `~/Library/Application Support/iTerm2/system_monitor.json`，位于 Scripts/AutoLaunch 外，修复 JSON 被当作应用启动的弹窗。回归测试覆盖真实命令入口默认读取新位置、忽略旧位置和显式 `--config` 覆盖；本机迁移保留配置原文，AutoLaunch 只剩两份 Python 脚本。
 - Python 编译、`git diff --check`、README shell 示例语法检查通过。
 - 使用 macmon 配置进行原生诊断成功，CPU 与温度均无读取错误。温度数值约 76.76°C。
 - 在备份脚本、配置和偏好设置后安装；iTerm2 重新打开时自动启动。Default、直播、上课的两个监控组件正常，旧内存、热状态、风扇和功耗 RPC 均未注册。
