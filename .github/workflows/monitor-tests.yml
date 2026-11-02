@@ -1,0 +1,36 @@
+name: Monitor tests
+
+on:
+  pull_request:
+    paths:
+      - 'AutoLaunch/system_monitor.py'
+      - 'tests/**'
+      - '.github/workflows/monitor-tests.yml'
+  push:
+    branches: [iTerm2]
+    paths:
+      - 'AutoLaunch/system_monitor.py'
+      - 'tests/**'
+      - '.github/workflows/monitor-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: python -m pip install iterm2
+      - run: python -m unittest discover -s tests -v
+      - name: Native macOS smoke check
+        if: runner.os == 'macOS'
+        run: python AutoLaunch/system_monitor.py --diagnose --samples 2

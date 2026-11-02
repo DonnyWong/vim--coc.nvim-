@@ -1,0 +1,6 @@
+{
+  "interval": 5,
+  "sensor_interval": 30,
+  "enable_istats": false,
+  "istats_path": null
+}
