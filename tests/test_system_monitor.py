@@ -84,11 +84,18 @@ class ConfigAndParsingTests(unittest.TestCase):
             self.assertEqual(m.load_config(path), m.DEFAULTS)
             for data in ([], {"interval": 0}, {"interval": True}, {"interval": float("nan")},
                          {"sensor_interval": 1}, {"enable_istats": "false"},
-                         {"istats_path": "istats"}, {"unknown": 5}):
+                         {"istats_path": "istats"}, {"unknown": 5},
+                         {"temperature_backend": "auto"}, {"macmon_path": "macmon"},
+                         {"temperature_backend": "macmon", "enable_istats": True}):
                 with self.subTest(data=data):
                     path.write_text(json.dumps(data))
                     with self.assertRaises(ValueError):
                         m.load_config(path)
+
+    def test_example_enables_macmon_and_defaults_keep_sensors_disabled(self):
+        config = m.load_config(MODULE.parent.parent / 'system_monitor.example.json')
+        self.assertEqual(config['temperature_backend'], 'macmon')
+        self.assertEqual(m.DEFAULTS['temperature_backend'], 'disabled')
 
     def test_numeric_temperature_reading(self):
         self.assertEqual(m.parse_sensor(" 48.5\n"), 48.5)
@@ -113,6 +120,34 @@ class ConfigAndParsingTests(unittest.TestCase):
                 patch.object(m.os, "access", return_value=True):
             self.assertEqual(m.find_istats(), "/opt/homebrew/bin/istats")
 
+    def test_macmon_path_discovery_and_explicit_override(self):
+        with tempfile.TemporaryDirectory() as folder:
+            exe = Path(folder) / 'macmon'
+            exe.write_text('#!/bin/sh\nexit 0\n')
+            exe.chmod(0o755)
+            with patch.object(m.shutil, 'which', return_value=str(exe)):
+                self.assertEqual(m.find_macmon(), str(exe))
+                self.assertEqual(m.find_macmon(str(exe)), str(exe))
+                self.assertIsNone(m.find_macmon(str(exe) + '-missing'))
+        with patch.object(m.shutil, 'which', return_value=None), \
+                patch.object(m.os.path, 'isfile', side_effect=lambda p: p == '/opt/homebrew/bin/macmon'), \
+                patch.object(m.os, 'access', return_value=True):
+            self.assertEqual(m.find_macmon(), '/opt/homebrew/bin/macmon')
+
+    def test_macmon_uses_only_cpu_temperature(self):
+        data = {'temp': {'cpu_temp_avg': 76.5, 'gpu_temp_avg': 95},
+                'memory': {'ram_usage': 10}, 'thermal': 2}
+        self.assertEqual(m.parse_macmon_temperature(json.dumps(data)), 76.5)
+
+    def test_macmon_rejects_missing_invalid_or_non_cpu_measurements(self):
+        for value in (None, True, '76.5', 0, -1, 151, 10**400, float('nan'), float('inf')):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                m.parse_macmon_temperature(json.dumps({'temp': {'cpu_temp_avg': value, 'gpu_temp_avg': 50}}))
+        for text in ('', '{}', '[]', '{"temp": null}', '{"temp": {"gpu_temp_avg": 50}}',
+                     '{"temp": ', '{"temp": {"cpu_temp_avg": 50}}\n{}'):
+            with self.subTest(text=text), self.assertRaises(ValueError):
+                m.parse_macmon_temperature(text)
+
 
 class AsyncTests(unittest.IsolatedAsyncioTestCase):
     async def test_real_iterm2_registration_protocol_when_installed(self):
@@ -136,13 +171,61 @@ class AsyncTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(registered), 2)
 
     async def test_disabled_and_missing_backend_never_spawn(self):
-        async def forbidden(*args):
+        async def forbidden(*args, **kwargs):
             self.fail("Disabled/unavailable sensors must not launch a process")
-        for enabled in (False, True):
-            config = dict(m.DEFAULTS, enable_istats=enabled)
-            with patch.object(m, "find_istats", return_value=None):
+        configs = [m.DEFAULTS, dict(m.DEFAULTS, enable_istats=True),
+                   dict(m.DEFAULTS, temperature_backend='macmon')]
+        for config in configs:
+            with patch.object(m, "find_istats", return_value=None), \
+                    patch.object(m, "find_macmon", return_value=None):
                 sensors = m.SensorSampler(config, runner=forbidden)
                 self.assertIsNone((await sensors.get())["value"])
+
+    async def test_macmon_one_bounded_sample_shared_across_sessions(self):
+        calls = []
+        async def run(argv, **kwargs):
+            calls.append((argv, kwargs))
+            await asyncio.sleep(0.01)
+            return '{"temp": {"cpu_temp_avg": 76.5}}'
+        with patch.object(m, 'find_macmon', return_value='/opt/homebrew/bin/macmon'):
+            sensors = m.SensorSampler(dict(m.DEFAULTS, temperature_backend='macmon'), runner=run)
+        values = await asyncio.gather(*(sensors.get() for _ in range(20)))
+        self.assertEqual([v['value'] for v in values], [76.5] * 20)
+        self.assertEqual(calls, [(['/opt/homebrew/bin/macmon', 'pipe', '--samples', '1', '--interval', '100'],
+                                  {'timeout': 4, 'limit': 65536})])
+
+    async def test_macmon_missing_cpu_clears_cached_temperature_and_recovers(self):
+        now, calls = [0], []
+        async def run(argv, **kwargs):
+            calls.append(argv)
+            value = None if len(calls) == 2 else 74.5
+            return json.dumps({'temp': {'cpu_temp_avg': value, 'gpu_temp_avg': 90}})
+        with patch.object(m, 'find_macmon', return_value='/opt/homebrew/bin/macmon'):
+            sensors = m.SensorSampler(dict(m.DEFAULTS, temperature_backend='macmon'),
+                                      runner=run, clock=lambda: now[0])
+        self.assertEqual((await sensors.get())['value'], 74.5)
+        now[0] = 30
+        self.assertIsNone((await sensors.get())['value'])
+        now[0] = 89
+        self.assertIsNone((await sensors.get())['value'])
+        self.assertEqual(len(calls), 2)
+        now[0] = 90
+        self.assertEqual((await sensors.get())['value'], 74.5)
+        self.assertEqual(sensors.failures, 0)
+
+    async def test_command_latency_does_not_skip_next_refresh(self):
+        now, calls = [0], []
+        async def run(argv, **kwargs):
+            calls.append(argv)
+            now[0] += 0.8
+            return '{"temp": {"cpu_temp_avg": 76.5}}'
+        with patch.object(m, 'find_macmon', return_value='/opt/homebrew/bin/macmon'):
+            sensors = m.SensorSampler(dict(m.DEFAULTS, temperature_backend='macmon'),
+                                      runner=run, clock=lambda: now[0])
+        await sensors.get()
+        now[0] = 30
+        await sensors.get()
+        self.assertEqual(len(calls), 2)
 
     async def test_sensor_cache_shares_work_across_concurrent_sessions(self):
         calls = []

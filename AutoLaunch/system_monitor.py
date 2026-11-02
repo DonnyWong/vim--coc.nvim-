@@ -19,8 +19,9 @@ import sys
 import time
 
 
-DEFAULTS = {"interval": 5, "sensor_interval": 30, "enable_istats": False,
-            "istats_path": None}
+DEFAULTS = {"interval": 5, "sensor_interval": 30,
+            "temperature_backend": "disabled", "macmon_path": None,
+            "enable_istats": False, "istats_path": None}
 
 
 def load_config(path):
@@ -37,9 +38,14 @@ def load_config(path):
             raise ValueError("{} must be between {} and {} seconds".format(key, low, high))
     if type(config["enable_istats"]) is not bool:
         raise ValueError("enable_istats must be true or false")
-    path = config["istats_path"]
-    if path is not None and (not isinstance(path, str) or not os.path.isabs(path)):
-        raise ValueError("istats_path must be an absolute executable path or null")
+    if config["temperature_backend"] not in ("disabled", "macmon", "istats"):
+        raise ValueError("temperature_backend must be disabled, macmon or istats")
+    if config["enable_istats"] and config["temperature_backend"] == "macmon":
+        raise ValueError("Choose macmon or legacy enable_istats, not both")
+    for key in ("istats_path", "macmon_path"):
+        path = config[key]
+        if path is not None and (not isinstance(path, str) or not os.path.isabs(path)):
+            raise ValueError("{} must be an absolute executable path or null".format(key))
     return config
 
 
@@ -110,6 +116,13 @@ def find_istats(explicit=None):
                  if path and os.path.isfile(path) and os.access(path, os.X_OK)), None)
 
 
+def find_macmon(explicit=None):
+    candidates = ([explicit] if explicit is not None else
+                  [shutil.which("macmon"), "/opt/homebrew/bin/macmon", "/usr/local/bin/macmon"])
+    return next((path for path in candidates
+                 if path and os.path.isfile(path) and os.access(path, os.X_OK)), None)
+
+
 async def run_command(argv, timeout=2, limit=8192):
     """Bound runtime/output and reap the whole process group on failure/cancellation."""
     env = dict(os.environ, LC_ALL="C", LANG="C")
@@ -160,10 +173,26 @@ def parse_sensor(text):
     return value
 
 
+def parse_macmon_temperature(text):
+    data = json.loads(text)
+    temperatures = data.get("temp") if isinstance(data, dict) else None
+    value = temperatures.get("cpu_temp_avg") if isinstance(temperatures, dict) else None
+    # Null/missing CPU sensors must not fall back to GPU, thermal state or a stale value.
+    if type(value) not in (int, float) or not 0 < value <= 150 or not math.isfinite(value):
+        raise ValueError("macmon CPU temperature is unavailable or invalid")
+    return float(value)
+
+
 class SensorSampler:
     def __init__(self, config, runner=run_command, clock=time.monotonic):
-        self.enabled = config["enable_istats"]
-        self.path = find_istats(config["istats_path"]) if self.enabled else None
+        self.backend = config["temperature_backend"]
+        if self.backend == "disabled" and config["enable_istats"]:
+            self.backend = "istats"  # Accept existing local configuration files.
+        self.path = None
+        if self.backend == "macmon":
+            self.path = find_macmon(config["macmon_path"])
+        elif self.backend == "istats":
+            self.path = find_istats(config["istats_path"])
         self.interval, self.runner, self.clock = config["sensor_interval"], runner, clock
         self.lock = asyncio.Lock()
         self.cache = None
@@ -171,16 +200,24 @@ class SensorSampler:
         self.failures = 0
 
     async def get(self):
-        if not self.enabled:
-            return {"value": None, "error": "iStats disabled; hardware support unverified"}
+        if self.backend == "disabled":
+            return {"value": None, "error": "Temperature backend disabled; configure temperature_backend"}
         if not self.path:
-            return {"value": None, "error": "iStats executable not found; configure istats_path and restart"}
+            return {"value": None, "error": self.backend + " executable not found; configure its path and restart"}
         async with self.lock:
-            if self.clock() < self.next_read:
+            started = self.clock()
+            if started < self.next_read:
                 return self.cache
             delay = self.interval
             try:
-                value = parse_sensor(await self.runner([self.path, "cpu", "temp", "--value-only"]))
+                if self.backend == "macmon":
+                    # One bounded sample, no daemon/server. Ignore all non-temperature fields.
+                    output = await self.runner(
+                        [self.path, "pipe", "--samples", "1", "--interval", "100"],
+                        timeout=4, limit=65536)
+                    value = parse_macmon_temperature(output)
+                else:
+                    value = parse_sensor(await self.runner([self.path, "cpu", "temp", "--value-only"]))
                 result = {"value": value, "error": None}
                 self.failures = 0
             except (OSError, ValueError, asyncio.TimeoutError) as exc:
@@ -188,7 +225,10 @@ class SensorSampler:
                 result = {"value": None, "error": str(exc) or "Sensor command timed out"}
                 self.failures = min(self.failures + 1, 4)
                 delay = max(self.interval, min(300, 30 * 2 ** self.failures))
-            self.cache, self.next_read = result, self.clock() + delay
+                started = self.clock()  # Back off from failure completion.
+            # Successful reads expire from their start, so command latency does
+            # not make the next status-bar tick reuse a whole extra interval.
+            self.cache, self.next_read = result, started + delay
             return result
 
 
@@ -205,7 +245,7 @@ async def register_components(connection, api, core, sensors, config):
         ("CPU Usage", "cpu_usage", cpu, "CPU 25%", config["interval"],
          "System CPU busy time, normalized to 0–100% across all cores; first sample is N/A."),
         ("CPU Temperature", "cpu_temperature", temperature, "Temp N/A", config["sensor_interval"],
-         "Optional iStats CPU sensor; disabled by default, no Apple Silicon/M6 support guarantee. See --diagnose."),
+         "CPU sensor temperature in Celsius. macmon reports the valid CPU sensors' average; N/A if unavailable."),
     ]
     for name, identifier, callback, exemplar, cadence, description in entries:
         # Unique RPC names are required when registering several components in one process.
@@ -223,6 +263,7 @@ async def diagnose(config, count):
     for index in range(count):
         data = dict(core.get())
         data["temperature"] = await sensors.get()
+        data["temperature_backend"] = sensors.backend
         print(json.dumps(data, ensure_ascii=False, allow_nan=False), flush=True)
         if index + 1 < count:
             await asyncio.sleep(config["interval"])
