@@ -1,0 +1,6 @@
+{
+  "interval": 5,
+  "sensor_interval": 30,
+  "temperature_backend": "macmon",
+  "macmon_path": null
+}

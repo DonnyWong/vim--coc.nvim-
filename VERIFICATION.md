@@ -1,0 +1,39 @@
+# 本次验证记录
+
+日期：2026-11-02（Asia/Shanghai）。目标分支：`iTerm2`。监控只显示 CPU 占用与 CPU 温度。
+
+## 环境与后端
+
+- 本机系统返回：Apple M6、Mac18,5、24 GiB、macOS 27.2、arm64；iTerm2 3.7.6，管理的 Python 3.12.13。
+- 从 Homebrew 官方源安装 macmon 0.10.0，位于 `/opt/homebrew/bin/macmon`。没有安装后台服务、开启 HTTP 端口或配置 sudo。
+- 三次独立温度采样成功：76.9539、76.7179、76.6430°C；同一时段 SMC 调试输出中 39 个 `Tp` / `Te` / `Ts` CPU 传感器均值约 76.82°C。
+- macmon 的 `temp.cpu_temp_avg` 是有效 CPU 传感器的平均值，不是最热点，也不是外部温度计校准值。SMC 逐项对照与 JSON 使用同一传感器来源。
+
+## 自动检查与本机运行
+
+- Python 3.12.13：27 项测试通过，包括真实 iTerm2 库的注册协议、CPU 缓存、macmon JSON 解析、缺失/无效 CPU 传感器、GPU 不回退、多会话单次读取、超时回收、失败退避，以及命令耗时不会额外跳过刷新周期。
+- 配置默认放在 `~/Library/Application Support/iTerm2/system_monitor.json`，位于 Scripts/AutoLaunch 外，修复 JSON 被当作应用启动的弹窗。回归测试覆盖真实命令入口默认读取新位置、忽略旧位置和显式 `--config` 覆盖；本机迁移保留配置原文，AutoLaunch 只剩两份 Python 脚本。
+- Python 编译、`git diff --check`、README shell 示例语法检查通过。
+- 使用 macmon 配置进行原生诊断成功，CPU 与温度均无读取错误。温度数值约 76.76°C。
+- 在备份脚本、配置和偏好设置后安装；iTerm2 重新打开时自动启动。Default、直播、上课的两个监控组件正常，旧内存、热状态、风扇和功耗 RPC 均未注册。
+- 真实 iTerm2 API 两次采样相隔约 33 秒：状态栏显示 76.6°C、76.7°C；相邻的直接 macmon 读数为 76.31°C、76.69°C，确认输出为硬件温度，能够刷新。
+
+## 单次命令开销
+
+命令：`macmon pipe --samples 1 --interval 100`，普通用户权限，三次独立进程。
+
+| 调用 | 耗时 | 子进程 CPU 时间 | 输出大小 |
+| --- | ---: | ---: | ---: |
+| 1 | 0.8291 秒 | 0.1081 秒 | 2911 字节 |
+| 2 | 0.9264 秒 | 0.0967 秒 | 2916 字节 |
+| 3 | 0.5266 秒 | 0.1010 秒 | 2912 字节 |
+
+温度默认每 30 秒最多启动一次采样，多个窗口共享缓存。按此次单次 CPU 时间推算，连续显示时均摊约为一个 CPU 核心的 **0.34%**；这是短时测量推算，不包括 iTerm2 UI、其他脚本和直播软件，也不是长时间性能保证。Python 核心采样的基准工具另见 `tools/benchmark_monitor.py`。
+
+macmon 的单次 JSON 内部还采样其他硬件指标，脚本只提取 CPU 温度。macmon 进程在单次采样后退出，不常驻。
+
+## 限制
+
+SMC / IOHID 属于私有接口，映射随芯片和 macOS 可能变化；本次成功不代表所有 Apple Silicon 型号已验证。缺失、null、异常或超时都显示 `N/A`，不显示旧温度或 GPU 温度。
+
+未完成外部仪器温度校准、Intel 实机检查或 30–60 分钟真实直播测试。CI 在 Linux/macOS 执行测试，最终结果以 PR Checks 为准。
